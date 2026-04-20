@@ -1,0 +1,23 @@
+export const Colors = {
+    azul: '#347ED5',
+    azul_claro: '#A1BCE1',
+    amarelo: '#F3B258',
+    vermelho: '#EE8385',
+    verde: '#58C97A',
+    roxo: '#9B56C9',
+    cinza: '#D9D9D9',
+    light: {
+        background: '#E3E2E8',
+        preto: '#3C3737',
+        branco_cards: '#FFFFFF85',
+    },
+    dark: {
+        background: '#313552',
+        text: '#EDEDED',
+        azul_cards: '#404E8385',
+    },
+    degrade: {
+        azul_claro: '#347ED5',
+        azul_escuro: '#38419E',
+    }
+}
