@@ -1,8 +1,10 @@
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
+import { usePathname } from 'expo-router';
 import { TabList, Tabs, TabSlot, TabTrigger, TabTriggerSlotProps } from 'expo-router/ui';
 import { forwardRef } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { Colors } from '../../constants/Constants';
+import { Header } from '../../src/components/Header';
 
 type Icon = React.ComponentProps<typeof FontAwesome>['name'];
 
@@ -40,9 +42,15 @@ const TabButton = forwardRef<View, TabButtonProps>(
 );
 
 export default function TabLayout() {
+  const pathname = usePathname();
+  const showHeader = !pathname.includes('/chat');
+
   return (
-    <Tabs>
-      <TabSlot />
+    <Tabs style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <TabSlot style={{ flex: 1 }} />
+        {showHeader && <Header />}
+      </View>
 
       <TabList
         style={{
@@ -51,12 +59,17 @@ export default function TabLayout() {
           left: 0,
           right: 0,
           flexDirection: 'row',
-          backgroundColor: Colors.light.branco_cards,
+          backgroundColor: '#FFFFFF',
           margin: 23,
           borderRadius: 16,
           height: 65,
           borderColor: Colors.cinza,
           borderWidth: 1,
+          shadowColor: '#000000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.16,
+          shadowRadius: 10.7,
+          elevation: 8,
         }}
       >
         <TabTrigger name="index" href="/(tabs)" asChild>
