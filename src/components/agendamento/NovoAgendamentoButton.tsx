@@ -12,8 +12,8 @@ export function NovoAgendamentoButton({ onPress }: NovoAgendamentoButtonProps) {
     <TouchableOpacity activeOpacity={0.85} onPress={onPress}>
       <LinearGradient
         colors={[Colors.degrade.azul_claro, Colors.degrade.azul_escuro]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 0 }}
         style={styles.container}
       >
         <FontAwesome name="calendar-plus" size={20} color="#FFFFFF" />
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     gap: 12,
     width: '100%',
     height: 52,
+    paddingVertical: 20,
     borderRadius: 14,
     shadowColor: Colors.azul,
     shadowOffset: { width: 0, height: 4 },
@@ -39,9 +40,8 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   text: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: 'Inter_700Bold',
     color: '#FFFFFF',
-    letterSpacing: 0.5,
   },
 });

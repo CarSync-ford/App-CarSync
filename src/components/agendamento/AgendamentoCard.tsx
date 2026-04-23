@@ -45,17 +45,17 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: '#E2E2E2',
+    borderColor: '#E4E4E4',
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F3F3F3',
+    backgroundColor: Colors.light.branco_cards_agenda,
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#E2E2E2',
+    borderBottomColor: Colors.light.borda_cards_agenda,
   },
   dateText: {
     fontSize: 13,
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     color: Colors.azul,
   },
   tipoText: {
+    textAlign: "center",
     fontSize: 13,
     fontFamily: 'Inter_400Regular',
     color: Colors.light.preto,

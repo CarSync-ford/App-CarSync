@@ -12,7 +12,7 @@ export function AgendamentosList({ agendamentos }: AgendamentosListProps) {
     <View style={styles.container}>
       <View style={styles.titleRow}>
         <View style={styles.iconContainer}>
-          <FontAwesome name="calendar-check" size={16} color="#FFFFFF" solid />
+          <FontAwesome name="calendar-check" size={16} color={Colors.light.preto} solid />
         </View>
         <Text style={styles.title}>Agendamentos</Text>
       </View>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#60A771', // specific green from image
+    backgroundColor: '#58C97AB3', 
     justifyContent: 'center',
     alignItems: 'center',
   },
