@@ -85,13 +85,26 @@ export function CalendarPicker({ selectedDate, onSelectDate }: CalendarPickerPro
 
   return (
     <View style={styles.container}>
+      <View>
+        <View style={styles.header}>
+        <TouchableOpacity onPress={() => setCurrentYear(currentYear - 1)} style={styles.navButton}>
+          <FontAwesome name="chevron-left" size={14} color={Colors.azul} />
+        </TouchableOpacity>
+        <Text style={styles.monthText}>
+          {currentYear}
+        </Text>
+        <TouchableOpacity onPress={() => setCurrentYear(currentYear + 1)} style={styles.navButton}>
+          <FontAwesome name="chevron-right" size={14} color={Colors.azul} />
+        </TouchableOpacity>
+      </View>
+      </View>
       {/* Header com navegação */}
       <View style={styles.header}>
         <TouchableOpacity onPress={goToPrevMonth} style={styles.navButton}>
           <FontAwesome name="chevron-left" size={14} color={Colors.azul} />
         </TouchableOpacity>
         <Text style={styles.monthText}>
-          {MONTH_NAMES[currentMonth]} {currentYear}
+          {MONTH_NAMES[currentMonth]}
         </Text>
         <TouchableOpacity onPress={goToNextMonth} style={styles.navButton}>
           <FontAwesome name="chevron-right" size={14} color={Colors.azul} />

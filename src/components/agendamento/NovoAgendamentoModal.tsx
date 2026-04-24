@@ -13,7 +13,7 @@ import {
   View,
 } from 'react-native';
 import { CalendarPicker } from './CalendarPicker';
-import { LocationPicker, Location } from './LocationPicker';
+import { Location, LocationPicker } from './LocationPicker';
 import { TimePicker } from './TimePicker';
 
 interface NovoAgendamentoModalProps {
@@ -39,7 +39,8 @@ const MOTIVOS = [
   'Troca de pneus',
 ];
 
-const HORARIOS_DISPONIVEIS = ['10H', '15H', '16H', '16H30', '16H45', '17H'];
+const HORARIOS_DISPONIVEIS = ['10H', '10H30', '11H', '11H30', '12H', '12H30', '13H', '13H30', '14H', '14H30',
+ '15H', '16H', '16H30', '17H'];
 
 const LOCAIS_MOCK: Location[] = [
   {
@@ -109,7 +110,7 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
   return (
     <Modal
       visible={visible}
-      animationType="slide"
+      animationType="fade"
       transparent
       onRequestClose={handleClose}
     >
@@ -126,6 +127,18 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
               contentContainerStyle={styles.scrollContent}
               keyboardShouldPersistTaps="handled"
             >
+
+              {/* Calendar Picker Inline */}
+              {showCalendar && (
+                <CalendarPicker
+                  selectedDate={formData.data}
+                  onSelectDate={(date) => {
+                    setFormData({ ...formData, data: date });
+                    setShowCalendar(false);
+                  }}
+                />
+              )}
+
               {/* Data e Horário */}
               <View style={styles.rowFields}>
                 <View style={styles.fieldHalf}>
@@ -165,16 +178,7 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
                 </View>
               </View>
 
-              {/* Calendar Picker Inline */}
-              {showCalendar && (
-                <CalendarPicker
-                  selectedDate={formData.data}
-                  onSelectDate={(date) => {
-                    setFormData({ ...formData, data: date });
-                    setShowCalendar(false);
-                  }}
-                />
-              )}
+
 
               {/* Time Picker Inline */}
               {showTimePicker && (
@@ -337,7 +341,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 12,
     paddingBottom: 30,
-    maxHeight: '85%',
   },
   handle: {
     width: 40,
