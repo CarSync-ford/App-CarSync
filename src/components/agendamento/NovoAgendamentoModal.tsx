@@ -128,6 +128,18 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
               keyboardShouldPersistTaps="handled"
             >
 
+              {/* Time Picker Inline */}
+              {showTimePicker && (
+                <TimePicker
+                  selectedTime={formData.horario}
+                  onSelectTime={(time) => {
+                    setFormData({ ...formData, horario: time });
+                    setShowTimePicker(false);
+                  }}
+                  availableTimes={HORARIOS_DISPONIVEIS}
+                />
+              )}
+
               {/* Calendar Picker Inline */}
               {showCalendar && (
                 <CalendarPicker
@@ -177,20 +189,6 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
                   </TouchableOpacity>
                 </View>
               </View>
-
-
-
-              {/* Time Picker Inline */}
-              {showTimePicker && (
-                <TimePicker
-                  selectedTime={formData.horario}
-                  onSelectTime={(time) => {
-                    setFormData({ ...formData, horario: time });
-                    setShowTimePicker(false);
-                  }}
-                  availableTimes={HORARIOS_DISPONIVEIS}
-                />
-              )}
 
               {/* Motivo */}
               <View style={styles.fieldFull}>

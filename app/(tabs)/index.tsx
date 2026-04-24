@@ -98,7 +98,7 @@ export default function Home() {
       </View>
       
       {/* Spacer para garantir passagem da tabbar sem sobreposição */}
-      <View style={{ height: 120 }} />
+      <View style={{ height: 70 }} />
     </ScrollView>
   );
 }

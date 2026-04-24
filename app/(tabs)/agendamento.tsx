@@ -72,7 +72,7 @@ export default function Agendamento() {
         <HistoricoList historicos={HISTORICOS_MOCK} />
 
         {/* Spacer para garantir passagem da tabbar sem sobreposição */}
-        <View style={{ height: 120 }} />
+        <View style={{ height: 50 }} />
       </ScrollView>
 
       <NovoAgendamentoModal
