@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../../../constants/Constants';
 
 export type ChatBubbleType = 'text' | 'audio' | 'typing';
@@ -36,12 +36,13 @@ export function ChatBubble({ isUser, type, message, time, duration }: ChatBubble
           type === 'audio' && styles.audioBubbleContainer
         ]}>
           {type === 'text' && (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <Text style={[styles.messageText, isRight ? styles.messageTextRight : styles.messageTextLeft]}>
-                {message}
-              </Text>
-              {!isRight && <FontAwesome name="volume-high" size={16} color="#666" />}
-            </View>
+            <>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Text style={[styles.messageText, isRight ? styles.messageTextRight : styles.messageTextLeft]}>
+                  {message}
+                </Text>
+              </View>
+            </>
           )}
 
           {type === 'audio' && (
@@ -69,14 +70,11 @@ export function ChatBubble({ isUser, type, message, time, duration }: ChatBubble
               )}
             </View>
           )}
+          
+      </View>    
 
-          {/* Bubble Tail */}
-          <View style={[
-            styles.tail,
-            isRight ? styles.tailRight : styles.tailLeft,
-            (isRight && type === 'audio') && styles.tailRightAudio
-          ]} />
-      </View>
+      
+      {!isRight && <FontAwesome name="volume-high" size={16} color="#666"/>}
 
       {!isRight && time && <Text style={styles.timeTextLeft}>{time}</Text>}
     </View>
@@ -85,6 +83,8 @@ export function ChatBubble({ isUser, type, message, time, duration }: ChatBubble
 
 const styles = StyleSheet.create({
   wrapper: {
+    display: 'flex',
+    gap: 12,
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   bubble: {
     maxWidth: '85%',
-    padding: 14,
+    padding: 12,
     borderRadius: 18,
     position: 'relative',
   },
@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     width: 260,
   },
   messageText: {
+    marginHorizontal: 4,
     fontSize: 14,
     lineHeight: 20,
     fontFamily: 'Inter_400Regular',
@@ -132,17 +133,21 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   timeTextLeft: {
+    width: '100%',
     fontSize: 10,
     color: '#888',
     marginLeft: 8,
     alignSelf: 'flex-end',
+    textAlign: 'right',
     marginBottom: 4,
   },
   timeTextRight: {
+    width: '100%',
     fontSize: 10,
     color: '#888',
     marginRight: 8,
     alignSelf: 'flex-end',
+    textAlign: 'left',
     marginBottom: 4,
   },
   audioPlayer: {
@@ -161,15 +166,16 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     flex: 1,
-    marginLeft: 12,
+    height: '100%',
+    marginLeft: 10,
+    marginTop: 17
   },
   progressBar: {
-    height: 3,
+    height: 2,
     backgroundColor: 'rgba(255,255,255,0.3)',
     borderRadius: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
   },
   progressDot: {
     width: 10,
@@ -182,22 +188,17 @@ const styles = StyleSheet.create({
   durationText: {
     color: '#FFF',
     fontSize: 10,
+    marginTop: 5
   },
   transcriptionContainer: {
     backgroundColor: '#B5D0FC',
-    padding: 12,
+    paddingHorizontal: 11,
+    paddingVertical: 8
   },
   transcriptionText: {
     fontSize: 12,
-    color: '#333',
+    color: '#616161',
     lineHeight: 16,
-  },
-  tail: {
-    position: 'absolute',
-    bottom: 0,
-    width: 15,
-    height: 15,
-    zIndex: -1,
   },
   tailLeft: {
     left: -8,

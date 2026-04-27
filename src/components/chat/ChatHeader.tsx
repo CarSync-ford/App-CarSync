@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Colors } from '../../../constants/Constants';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Colors } from '../../../constants/Constants';
 
 export function ChatHeader() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export function ChatHeader() {
 
       <View style={styles.centerGroup}>
         <Image 
-          source={require('../../../assets/images/fordinho.png')} 
+          source={require('../../../assets/images/fordinho_chat.png')} 
           style={styles.avatar} 
         />
         <View style={styles.textContainer}>
