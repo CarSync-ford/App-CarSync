@@ -11,7 +11,8 @@ export const Colors = {
         preto: '#3C3737',
         branco_cards: '#FFFFFF85',
         branco_cards_agenda: "#F2F2F2",
-        borda_cards_agenda: "#E4E4E4"
+        borda_cards_agenda: "#E4E4E4",
+        cinza: "#B3B3B3"
     },
     dark: {
         background: '#313552',

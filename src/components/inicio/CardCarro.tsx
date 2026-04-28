@@ -14,7 +14,7 @@ export default function CardCarro() {
                 <View style={styles.circleBackground} />
 
                 <Image
-                    source={require('../../assets/images/ranger.png')}
+                    source={require('@/assets/images/ranger.png')}
                     style={styles.image}
                     resizeMode="contain"
                 />
