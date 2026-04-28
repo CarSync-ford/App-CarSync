@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     maxHeight: 100, // Limita altura se for multiline futuramente
     borderColor: "transparent",
     borderWidth: 0,
+    borderRadius: 20,
   },
   micButton: {
     width: 50,

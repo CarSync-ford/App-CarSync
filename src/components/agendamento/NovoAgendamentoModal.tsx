@@ -445,6 +445,7 @@ const styles = StyleSheet.create({
     color: Colors.light.preto,
     paddingVertical: 12,
     paddingHorizontal: 14,
+    borderRadius: 10,
   },
   dropdownContainer: {
     backgroundColor: '#FFFFFF',
