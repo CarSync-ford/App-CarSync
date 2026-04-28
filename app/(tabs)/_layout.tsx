@@ -45,6 +45,8 @@ export default function TabLayout() {
   const pathname = usePathname();
   const showHeader = !pathname.includes('/chat');
 
+  const showTabs = !pathname.includes('/chat');
+
   return (
     <Tabs style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -54,6 +56,7 @@ export default function TabLayout() {
 
       <TabList
         style={{
+          display: showTabs ? 'flex' : 'none',
           position: 'absolute',
           bottom: 0,
           left: 0,
