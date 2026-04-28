@@ -24,6 +24,20 @@ const AGENDAMENTOS_MOCK: AgendamentoData[] = [
     tipo: 'Manutenção preventiva',
     local: 'R. Alagoas, 41 - Centro, São Caetano do Sul - SP, 09521-050',
   },
+  {
+    id: '3',
+    data: '13/04/2026',
+    horario: '16H',
+    tipo: 'Manutenção preventiva',
+    local: 'R. Alagoas, 41 - Centro, São Caetano do Sul - SP, 09521-050',
+  },
+  {
+    id: '4',
+    data: '13/04/2026',
+    horario: '16H',
+    tipo: 'Manutenção preventiva',
+    local: 'R. Alagoas, 41 - Centro, São Caetano do Sul - SP, 09521-050',
+  },
 ];
 
 const HISTORICOS_MOCK: Historico[] = [
@@ -41,6 +55,18 @@ const HISTORICOS_MOCK: Historico[] = [
   },
   {
     id: '3',
+    data: '16/12/2025',
+    tipo: 'Troca óleo',
+    realizado: true,
+  },
+  {
+    id: '4',
+    data: '16/12/2025',
+    tipo: 'Troca óleo',
+    realizado: true,
+  },
+  {
+    id: '5',
     data: '16/12/2025',
     tipo: 'Troca óleo',
     realizado: true,

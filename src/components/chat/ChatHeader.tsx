@@ -1,10 +1,20 @@
-import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Colors } from '../../../constants/Constants';
+import { NotificationPanel } from "@/src/components/inicio/NotificationPanel";
+import { FontAwesome6 as FontAwesome } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Colors } from "../../../constants/Constants";
+import { useState } from "react";
 
 export function ChatHeader() {
+  const [showNotifications, setShowNotifications] = useState(false);
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -15,9 +25,9 @@ export function ChatHeader() {
       </Pressable>
 
       <View style={styles.centerGroup}>
-        <Image 
-          source={require('../../../assets/images/fordinho_chat.png')} 
-          style={styles.avatar} 
+        <Image
+          source={require("../../../assets/images/fordinho_chat.png")}
+          style={styles.avatar}
         />
         <View style={styles.textContainer}>
           <Text style={styles.title}>Fordinho</Text>
@@ -25,22 +35,27 @@ export function ChatHeader() {
         </View>
       </View>
 
-      <View style={styles.bellContainer}>
-        <FontAwesome name="bell" size={24} color={Colors.light.preto} solid />
+      <TouchableOpacity
+        style={styles.bellContainer}
+        onPress={() => setShowNotifications((v) => !v)}
+      >
+        <FontAwesome name="bell" size={26} color={Colors.light.preto} solid />
         <View style={styles.badge} />
-      </View>
+      </TouchableOpacity>
+
+      <NotificationPanel visible={showNotifications} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 24,
     paddingBottom: 15,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     zIndex: 10,
   },
   backButton: {
@@ -49,9 +64,9 @@ const styles = StyleSheet.create({
   },
   centerGroup: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
     marginLeft: 10,
     gap: 12,
   },
@@ -59,29 +74,29 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#FFFFFF', // Fundo branco caso a imagem tenha transparência
+    backgroundColor: "#FFFFFF", // Fundo branco caso a imagem tenha transparência
   },
   textContainer: {
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   title: {
     fontSize: 16,
-    fontFamily: 'Inter_600SemiBold', 
+    fontFamily: "Inter_600SemiBold",
     color: Colors.azul,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   subtitle: {
     fontSize: 12,
-    fontFamily: 'Inter_400Regular', 
+    fontFamily: "Inter_400Regular",
     color: Colors.light.preto,
   },
   bellContainer: {
-    position: 'relative',
+    position: "relative",
     padding: 5,
     marginRight: -5,
   },
   badge: {
-    position: 'absolute',
+    position: "absolute",
     top: 5,
     right: 5,
     width: 10,
@@ -89,6 +104,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.azul,
     borderWidth: 1.5,
-    borderColor: '#DCE7F5', // Cor do fundo da tela (para criar o gap em volta da bolinha)
-  }
+    borderColor: "#DCE7F5", // Cor do fundo da tela (para criar o gap em volta da bolinha)
+  },
 });
