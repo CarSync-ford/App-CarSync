@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',    
     justifyContent: "space-between",
     width: '100%',
+    height: 100,
     borderRadius: 20,
     paddingVertical: 13,
     paddingLeft: 16,
@@ -106,6 +107,6 @@ const styles = StyleSheet.create({
   },
   mascotImage: {
     width: "100%",
-    height: "100%"
+    height: 100
   },
 });
