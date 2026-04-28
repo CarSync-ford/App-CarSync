@@ -1,6 +1,6 @@
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../../../constants/Constants';
 
 export function ChatInput() {
@@ -15,7 +15,7 @@ export function ChatInput() {
           placeholderTextColor="#999"
         />
       </View>
-      
+
       <Pressable style={styles.micButton}>
         <FontAwesome name="microphone" size={25} color="#FFF" />
       </Pressable>
@@ -44,17 +44,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDEDED',
     borderRadius: 20,
     justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 17,
     marginRight: 12,
-    borderColor:  '#DADADA',
+    borderColor: '#DADADA',
     borderWidth: 2,
   },
   input: {
     fontFamily: 'Inter_400Regular',
     fontSize: 14,
     color: '#333',
+    paddingHorizontal: 20,
+    paddingVertical: 17,
     maxHeight: 100, // Limita altura se for multiline futuramente
+    borderColor: "transparent",
+    borderWidth: 0,
   },
   micButton: {
     width: 50,
@@ -68,5 +70,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 4,
-  }
+  },
 });
