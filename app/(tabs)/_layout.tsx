@@ -1,12 +1,18 @@
-import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
-import { usePathname } from 'expo-router';
-import { TabList, Tabs, TabSlot, TabTrigger, TabTriggerSlotProps } from 'expo-router/ui';
-import { forwardRef } from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { Colors } from '../../constants/Constants';
-import { Header } from '../../src/components/Header';
+import { FontAwesome6 as FontAwesome } from "@expo/vector-icons";
+import { usePathname } from "expo-router";
+import {
+  TabList,
+  Tabs,
+  TabSlot,
+  TabTrigger,
+  TabTriggerSlotProps,
+} from "expo-router/ui";
+import { forwardRef } from "react";
+import { Pressable, Text, View } from "react-native";
+import { Colors } from "../../constants/Constants";
+import { Header } from "../../src/components/inicio/Header";
 
-type Icon = React.ComponentProps<typeof FontAwesome>['name'];
+type Icon = React.ComponentProps<typeof FontAwesome>["name"];
 
 type TabButtonProps = TabTriggerSlotProps & {
   icon: Icon;
@@ -21,8 +27,8 @@ const TabButton = forwardRef<View, TabButtonProps>(
         {...props}
         style={{
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <FontAwesome
@@ -30,20 +36,22 @@ const TabButton = forwardRef<View, TabButtonProps>(
           size={24}
           color={isFocused ? Colors.azul : "#C0C0C2"}
         />
-        <Text style={{
-          fontSize: 12,
-          color: isFocused ? Colors.azul : "#C0C0C2"
-        }}>
+        <Text
+          style={{
+            fontSize: 12,
+            color: isFocused ? Colors.azul : "#C0C0C2",
+          }}
+        >
           {label}
         </Text>
       </Pressable>
     );
-  }
+  },
 );
 
 export default function TabLayout() {
   const pathname = usePathname();
-  const showHeader = !pathname.includes('/chat');
+  const showHeader = !pathname.includes("/chat");
 
   return (
     <Tabs style={{ flex: 1 }}>
@@ -54,18 +62,18 @@ export default function TabLayout() {
 
       <TabList
         style={{
-          position: 'absolute',
+          position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
-          flexDirection: 'row',
-          backgroundColor: '#FFFFFF',
+          flexDirection: "row",
+          backgroundColor: "#FFFFFF",
           margin: 23,
           borderRadius: 16,
           height: 65,
           borderColor: Colors.cinza,
           borderWidth: 1,
-          shadowColor: '#000000',
+          shadowColor: "#000000",
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.16,
           shadowRadius: 10.7,
