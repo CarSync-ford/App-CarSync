@@ -1,9 +1,12 @@
 import { Colors } from '@/constants/Constants';
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
+  Animated,
+  Dimensions,
   KeyboardAvoidingView,
   Modal,
+  PanResponder,
   Platform,
   ScrollView,
   StyleSheet,
@@ -37,6 +40,7 @@ const MOTIVOS = [
   'Revisão completa',
   'Alinhamento e balanceamento',
   'Troca de pneus',
+  'Outro motivo'
 ];
 
 const HORARIOS_DISPONIVEIS = ['10H', '10H30', '11H', '11H30', '12H', '12H30', '13H', '13H30', '14H', '14H30',
@@ -80,6 +84,41 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
   const [showMotivoPicker, setShowMotivoPicker] = useState(false);
   const [showLocationPicker, setShowLocationPicker] = useState(false);
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const translateY = useRef(new Animated.Value(Dimensions.get('window').height)).current;
+  const overlayOpacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (visible) {
+      setModalVisible(true);
+      Animated.parallel([
+        Animated.timing(overlayOpacity, { toValue: 1, duration: 300, useNativeDriver: true }),
+        Animated.spring(translateY, { toValue: 0, useNativeDriver: true, bounciness: 4 }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(overlayOpacity, { toValue: 0, duration: 250, useNativeDriver: true }),
+        Animated.timing(translateY, { toValue: Dimensions.get('window').height, duration: 300, useNativeDriver: true }),
+      ]).start(() => setModalVisible(false));
+    }
+  }, [visible]);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, gesture) => {
+        if (gesture.dy > 0) translateY.setValue(gesture.dy);
+      },
+      onPanResponderRelease: (_, gesture) => {
+        if (gesture.dy > 80) {
+          handleClose();
+        } else {
+          Animated.spring(translateY, { toValue: 0, useNativeDriver: true, bounciness: 4 }).start();
+        }
+      },
+    })
+  ).current;
+
   const formatDate = (date: Date | null) => {
     if (!date) return '00/00/0000';
     const day = String(date.getDate()).padStart(2, '0');
@@ -109,18 +148,18 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
 
   return (
     <Modal
-      visible={visible}
-      animationType="fade"
+      visible={modalVisible}
+      animationType="none"
       transparent
       onRequestClose={handleClose}
     >
-      <View style={styles.overlay}>
+      <Animated.View style={[styles.overlay, { opacity: overlayOpacity }]}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardView}
         >
-          <View style={styles.sheet}>
-            <View style={styles.handle} />
+          <Animated.View style={[styles.sheet, { transform: [{ translateY }] }]}>
+            <View style={styles.handle} {...panResponder.panHandlers} />
 
             <ScrollView
               showsVerticalScrollIndicator={false}
@@ -244,7 +283,7 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
               )}
 
               {/* Outro Motivo */}
-              <View style={styles.fieldFull}>
+              <View style={[styles.fieldFull, formData.motivo !== 'Outro motivo' && styles.fieldDisabled]}>
                 <Text style={styles.label}>Outro motivo</Text>
                 <View style={styles.textInputContainer}>
                   <TextInput
@@ -252,6 +291,7 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
                     placeholder="Digite aqui"
                     placeholderTextColor={Colors.cinza}
                     value={formData.outroMotivo}
+                    editable={formData.motivo === 'Outro motivo'}
                     onChangeText={(text) =>
                       setFormData({ ...formData, outroMotivo: text })
                     }
@@ -316,9 +356,9 @@ export function NovoAgendamentoModal({ visible, onClose, onConfirm }: NovoAgenda
                 <Text style={styles.confirmText}>Confirmar</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </Animated.View>
         </KeyboardAvoidingView>
-      </View>
+      </Animated.View>
     </Modal>
   );
 }
@@ -366,6 +406,10 @@ const styles = StyleSheet.create({
   },
   fieldFull: {
     gap: 6,
+  },
+  fieldDisabled: {
+    opacity: 0.35,
+    pointerEvents: 'none',
   },
   label: {
     fontSize: 13,

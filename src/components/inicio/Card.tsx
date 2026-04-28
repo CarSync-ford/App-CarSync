@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "rgba(255, 255, 255, 0.52)",
     borderRadius: 20,
-    paddingVertical: 9,
+    paddingVertical: 12,
     paddingHorizontal: 12,
   },
   header: {
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 8,
+    gap: 10
   },
   title: {
     fontSize: 16,

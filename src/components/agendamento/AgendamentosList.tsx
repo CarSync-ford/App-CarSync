@@ -1,6 +1,6 @@
 import { Colors } from '@/constants/Constants';
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { AgendamentoCard, Agendamento } from './AgendamentoCard';
 
 interface AgendamentosListProps {
@@ -17,11 +17,11 @@ export function AgendamentosList({ agendamentos }: AgendamentosListProps) {
         <Text style={styles.title}>Agendamentos</Text>
       </View>
 
-      <View style={styles.list}>
+      <ScrollView style={styles.list}>
         {agendamentos.map((item) => (
           <AgendamentoCard key={item.id} agendamento={item} />
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 5,
     elevation: 2,
+    maxHeight: 300,
   },
   titleRow: {
     flexDirection: 'row',

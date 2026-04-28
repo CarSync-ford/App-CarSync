@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderBottomWidth: 1,
     borderBottomColor: Colors.light.borda_cards_agenda,
+    gap: 10
   },
   dateText: {
     fontSize: 13,

@@ -54,7 +54,7 @@ export default function Home() {
               color={Colors.light.preto}
             />
           }
-          width="48%"
+          width="47%"
           iconColor={Colors.azul_claro}
         >
           <SpeedChart speed={dadosDoVeiculo.velocidade} maxSpeed={220} />
@@ -69,7 +69,7 @@ export default function Home() {
               color={Colors.light.preto}
             />
           }
-          width="48%"
+          width="47%"
           iconColor={Colors.amarelo}
         >
           <TirePressure
@@ -104,7 +104,7 @@ export default function Home() {
           icon={
             <FontAwesome5 name="oil-can" size={16} color={Colors.light.preto} />
           }
-          width="48%"
+          width="40%"
           iconColor={Colors.verde}
           height={"80%"}
         >
@@ -116,7 +116,7 @@ export default function Home() {
           icon={
             <FontAwesome5 name="car" size={16} color={Colors.light.preto} />
           }
-          width="48%"
+          width="54%"
           iconColor={Colors.roxo}
         >
           <OtherInfos infos={dadosDoVeiculo.outrasInfos} />
