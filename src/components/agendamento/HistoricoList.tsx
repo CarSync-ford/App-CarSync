@@ -17,7 +17,11 @@ export function HistoricoList({ historicos }: HistoricoListProps) {
         <Text style={styles.title}>Histórico</Text>
       </View>
 
-      <ScrollView contentContainerStyle={{ gap: 8 }}>
+      <ScrollView
+        style={{flex: 1 }}  // ADICIONADO: Isso trava o ScrollView dentro do maxHeight de 300 e ativa a rolagem
+        contentContainerStyle={{ gap: 8, paddingBottom: 10 }} 
+        nestedScrollEnabled={true}
+      >
         {historicos.map((item) => (
           <HistoricoCard key={item.id} historico={item} />
         ))}
@@ -28,6 +32,7 @@ export function HistoricoList({ historicos }: HistoricoListProps) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
     paddingVertical: 18,
@@ -38,7 +43,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 2,
     marginBottom: 40,
-    maxHeight: 300,
+    height: 300,
   },
   titleRow: {
     flexDirection: "row",
