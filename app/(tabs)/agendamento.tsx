@@ -1,74 +1,48 @@
-import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { FordinhoBanner } from '@/src/components/agendamento/FordinhoBanner';
-import { NovoAgendamentoButton } from '@/src/components/agendamento/NovoAgendamentoButton';
-import { AgendamentosList } from '@/src/components/agendamento/AgendamentosList';
-import { HistoricoList } from '@/src/components/agendamento/HistoricoList';
-import { NovoAgendamentoModal, AgendamentoFormData } from '@/src/components/agendamento/NovoAgendamentoModal';
-import { Agendamento as AgendamentoData } from '@/src/components/agendamento/AgendamentoCard';
-import { Historico } from '@/src/components/agendamento/HistoricoCard';
-import { Colors } from '@/constants/Constants';
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { FordinhoBanner } from "@/src/components/agendamento/FordinhoBanner";
+import { NovoAgendamentoButton } from "@/src/components/agendamento/NovoAgendamentoButton";
+import { AgendamentosList } from "@/src/components/agendamento/AgendamentosList";
+import { HistoricoList } from "@/src/components/agendamento/HistoricoList";
+import { NovoAgendamentoModal } from "@/src/components/agendamento/NovoAgendamentoModal";
+import {
+  IAgendamento as AgendamentoData,
+  IAgendamento,
+} from "@/src/components/agendamento/AgendamentoCard";
+import { Historico } from "@/src/components/agendamento/HistoricoCard";
+import { Colors } from "@/constants/Constants";
 
-const AGENDAMENTOS_MOCK: AgendamentoData[] = [
-  {
-    id: '1',
-    data: '13/04/2026',
-    horario: '16H',
-    tipo: 'Manutenção preventiva',
-    local: 'R. Alagoas, 41 - Centro, São Caetano do Sul - SP, 09521-050',
-  },
-  {
-    id: '2',
-    data: '13/04/2026',
-    horario: '16H',
-    tipo: 'Manutenção preventiva',
-    local: 'R. Alagoas, 41 - Centro, São Caetano do Sul - SP, 09521-050',
-  },
-  {
-    id: '3',
-    data: '13/04/2026',
-    horario: '16H',
-    tipo: 'Manutenção preventiva',
-    local: 'R. Alagoas, 41 - Centro, São Caetano do Sul - SP, 09521-050',
-  },
-  {
-    id: '4',
-    data: '13/04/2026',
-    horario: '16H',
-    tipo: 'Manutenção preventiva',
-    local: 'R. Alagoas, 41 - Centro, São Caetano do Sul - SP, 09521-050',
-  },
-];
+var AGENDAMENTOS_MOCK: AgendamentoData[] = [];
 
-const HISTORICOS_MOCK: Historico[] = [
+var HISTORICOS_MOCK: Historico[] = [
   {
-    id: '1',
-    data: '16/12/2025',
-    tipo: 'Troca óleo',
+    id: "1",
+    data: "16/12/2025",
+    tipo: "Troca óleo",
     realizado: true,
   },
   {
-    id: '2',
-    data: '16/12/2025',
-    tipo: 'Troca óleo',
+    id: "2",
+    data: "16/12/2025",
+    tipo: "Troca óleo",
     realizado: false,
   },
   {
-    id: '3',
-    data: '16/12/2025',
-    tipo: 'Troca óleo',
+    id: "3",
+    data: "16/12/2025",
+    tipo: "Troca óleo",
     realizado: true,
   },
   {
-    id: '4',
-    data: '16/12/2025',
-    tipo: 'Troca óleo',
+    id: "4",
+    data: "16/12/2025",
+    tipo: "Troca óleo",
     realizado: true,
   },
   {
-    id: '5',
-    data: '16/12/2025',
-    tipo: 'Troca óleo',
+    id: "5",
+    data: "16/12/2025",
+    tipo: "Troca óleo",
     realizado: true,
   },
 ];
@@ -76,9 +50,17 @@ const HISTORICOS_MOCK: Historico[] = [
 export default function Agendamento() {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleConfirm = (data: AgendamentoFormData) => {
+  const [agendamentos, setAgendamentos] = useState(AGENDAMENTOS_MOCK);
+
+  const handleConfirm = (data: AgendamentoData) => {
     // Futuramente: salvar no backend/estado global
-    console.log('Novo agendamento:', data);
+    console.log("Novo agendamento:", { ...data, id: AGENDAMENTOS_MOCK.length });
+    setAgendamentos([
+      { ...data, id: (agendamentos.length + 1).toString() },
+      ...agendamentos,
+    ]);
+    console.log("lista de agendamento: ", agendamentos);
+
     setModalVisible(false);
   };
 
@@ -93,8 +75,8 @@ export default function Agendamento() {
 
         <NovoAgendamentoButton onPress={() => setModalVisible(true)} />
 
-        <AgendamentosList agendamentos={AGENDAMENTOS_MOCK} />
-
+        <AgendamentosList agendamentos={agendamentos} />
+         
         <HistoricoList historicos={HISTORICOS_MOCK} />
 
         {/* Spacer para garantir passagem da tabbar sem sobreposição */}
