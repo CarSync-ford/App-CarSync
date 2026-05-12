@@ -2,16 +2,17 @@ import { Colors } from '@/constants/Constants';
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export interface Agendamento {
-  id: string;
-  data: string;
-  horario: string;
-  tipo: string;
-  local: string;
+export interface IAgendamento {
+  id?: string;
+  data: null | Date;
+  horario: string | null;
+  motivo: string | null;
+  outroMotivo?: string,
+  local: string | null;
 }
 
 interface AgendamentoCardProps {
-  agendamento: Agendamento;
+  agendamento: IAgendamento;
 }
 
 export function AgendamentoCard({ agendamento }: AgendamentoCardProps) {
@@ -19,9 +20,9 @@ export function AgendamentoCard({ agendamento }: AgendamentoCardProps) {
     <View style={styles.container}>
       <View style={styles.headerRow}>
         <Text style={styles.dateText}>
-          {agendamento.data} - {agendamento.horario}
+          {agendamento.data?.getDate()}/{agendamento.data?.getMonth() + 1}/{agendamento.data?.getFullYear()} - {agendamento.horario}
         </Text>
-        <Text style={styles.tipoText}>{agendamento.tipo}</Text>
+        <Text style={styles.tipoText}>{agendamento.motivo}</Text>
       </View>
 
       <View style={styles.bottomRow}>

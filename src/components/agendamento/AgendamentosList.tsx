@@ -1,10 +1,10 @@
 import { Colors } from '@/constants/Constants';
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { AgendamentoCard, Agendamento } from './AgendamentoCard';
+import { AgendamentoCard, IAgendamento } from './AgendamentoCard';
 
 interface AgendamentosListProps {
-  agendamentos: Agendamento[];
+  agendamentos: IAgendamento[];
 }
 
 export function AgendamentosList({ agendamentos }: AgendamentosListProps) {
@@ -18,9 +18,9 @@ export function AgendamentosList({ agendamentos }: AgendamentosListProps) {
       </View>
 
       <ScrollView style={styles.list}>
-        {agendamentos.map((item) => (
+        {agendamentos.length != 0 ?agendamentos.map((item) => (
           <AgendamentoCard key={item.id} agendamento={item} />
-        ))}
+        )) : <Text style={styles.mensagem}>Você não tem nenhum agendamento marcado</Text>}
       </ScrollView>
     </View>
   );
@@ -61,4 +61,8 @@ const styles = StyleSheet.create({
   list: {
     gap: 8,
   },
+  mensagem: {
+    fontSize: 16,
+    color: Colors.light.preto,
+  }
 });
