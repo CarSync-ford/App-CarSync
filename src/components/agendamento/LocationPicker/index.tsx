@@ -37,6 +37,7 @@ export function LocationPicker({
   return (
     <View style={styles.container}>
       <ScrollView
+        nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}

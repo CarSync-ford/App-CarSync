@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     maxHeight: 220,
   },
   scrollView: {
-    flex: 1,
+    flexGrow: 1,
   },
   scrollContent: {
     gap: 2,

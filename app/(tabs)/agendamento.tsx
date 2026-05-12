@@ -8,7 +8,7 @@ import { NovoAgendamentoModal } from "@/src/components/agendamento/NovoAgendamen
 import { Colors } from "@/constants/Constants";
 import { IAgendamento, Historico } from "@/src/interfaces/agendamento";
 
-var AGENDAMENTOS_MOCK: AgendamentoData[] = [];
+var AGENDAMENTOS_MOCK: IAgendamento[] = [];
 
 var HISTORICOS_MOCK: Historico[] = [
   {
@@ -48,7 +48,7 @@ export default function Agendamento() {
 
   const [agendamentos, setAgendamentos] = useState(AGENDAMENTOS_MOCK);
 
-  const handleConfirm = (data: AgendamentoData) => {
+  const handleConfirm = (data: IAgendamento) => {
     // Futuramente: salvar no backend/estado global
     console.log("Novo agendamento:", { ...data, id: AGENDAMENTOS_MOCK.length });
     setAgendamentos([

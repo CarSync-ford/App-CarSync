@@ -7,6 +7,7 @@ export function TimePicker({ selectedTime, onSelectTime, availableTimes }: TimeP
   return (
     <View style={styles.container}>
       <ScrollView
+        nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
