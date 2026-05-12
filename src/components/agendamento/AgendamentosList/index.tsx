@@ -1,7 +1,7 @@
 import { Colors } from '@/constants/Constants';
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { Text, View, ScrollView } from 'react-native';
-import { AgendamentoCard, IAgendamento } from './AgendamentoCard';
+import { AgendamentoCard, IAgendamento } from "../AgendamentoCard";
 import { styles } from './style';
 
 interface AgendamentosListProps {

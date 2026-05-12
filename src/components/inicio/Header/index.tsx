@@ -3,7 +3,7 @@ import { BlurView } from "expo-blur";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Colors } from '@/constants/Constants';
-import { NotificationPanel } from "./NotificationPanel";
+import { NotificationPanel } from "../NotificationPanel";
 import { styles } from './style';
 
 export function Header() {

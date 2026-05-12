@@ -15,10 +15,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { CalendarPicker } from "./CalendarPicker";
-import { Location, LocationPicker } from "./LocationPicker";
-import { TimePicker } from "./TimePicker";
-import { IAgendamento } from "./AgendamentoCard";
+import { CalendarPicker } from "../CalendarPicker";
+import { Location, LocationPicker } from "../LocationPicker";
+import { TimePicker } from "../TimePicker";
+import { IAgendamento } from "../AgendamentoCard";
 import { styles } from './style';
 
 interface NovoAgendamentoModalProps {

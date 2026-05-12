@@ -1,7 +1,7 @@
 import { Colors } from "@/constants/Constants";
 import { FontAwesome6 as FontAwesome } from "@expo/vector-icons";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Historico, HistoricoCard } from "./HistoricoCard";
+import { Historico, HistoricoCard } from "../HistoricoCard";
 import { styles } from './style';
 
 interface HistoricoListProps {

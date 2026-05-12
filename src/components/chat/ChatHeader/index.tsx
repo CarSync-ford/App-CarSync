@@ -27,7 +27,7 @@ export function ChatHeader() {
 
       <View style={styles.centerGroup}>
         <Image
-          source={require("../../../assets/images/fordinho_chat.png")}
+          source={require('@/assets/images/fordinho_chat.png')}
           style={styles.avatar}
         />
         <View style={styles.textContainer}>

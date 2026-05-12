@@ -22,7 +22,7 @@ export function FordinhoBanner() {
 
       <View style={styles.imageContainer}>
         <Image
-          source={require('../../../assets/images/fordinho.png')}
+          source={require('@/assets/images/fordinho.png')}
           style={styles.mascotImage}
           resizeMode="contain"
         />

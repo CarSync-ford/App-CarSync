@@ -2,7 +2,7 @@ import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Colors } from '@/constants/Constants';
-import { TypingIndicator } from './TypingIndicator';
+import { TypingIndicator } from "../TypingIndicator";
 import { styles } from './style';
 
 export type ChatBubbleType = 'text' | 'audio' | 'typing';
