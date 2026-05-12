@@ -2,15 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Colors } from '@/constants/Constants';
 import { styles } from './style';
-
-interface InfoItem {
-  label: string;
-  value: string | number;
-}
-
-interface OtherInfosProps {
-  infos: InfoItem[];
-}
+import { InfoItem, OtherInfosProps } from "@/src/interfaces/inicio";
 
 export function OtherInfos({ infos }: OtherInfosProps) {
   return (

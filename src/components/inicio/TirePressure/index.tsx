@@ -2,13 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Colors } from '@/constants/Constants';
 import { styles } from './style';
-
-interface TirePressureProps {
-  fl: number;
-  fr: number;
-  rl: number;
-  rr: number;
-}
+import { TirePressureProps } from "@/src/interfaces/inicio";
 
 export function TirePressure({ fl, fr, rl, rr }: TirePressureProps) {
   

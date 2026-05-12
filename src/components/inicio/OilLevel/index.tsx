@@ -2,10 +2,7 @@ import { Colors } from '@/constants/Constants';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { styles } from './style';
-
-interface OilLevelProps {
-  level: number; 
-}
+import { OilLevelProps } from "@/src/interfaces/inicio";
 
 export function OilLevel({ level }: OilLevelProps) {
   return (

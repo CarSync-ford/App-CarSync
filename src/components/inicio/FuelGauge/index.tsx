@@ -2,10 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Colors } from '@/constants/Constants';
 import { styles } from './style';
-
-interface FuelGaugeProps {
-  level: number; 
-}
+import { FuelGaugeProps } from "@/src/interfaces/inicio";
 
 export function FuelGauge({ level }: FuelGaugeProps) {
   return (

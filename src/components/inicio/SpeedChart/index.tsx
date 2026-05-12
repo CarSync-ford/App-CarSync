@@ -3,11 +3,7 @@ import { View, Text } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { Colors } from '@/constants/Constants';
 import { styles } from './style';
-
-interface SpeedChartProps {
-  speed: number;
-  maxSpeed?: number;
-}
+import { SpeedChartProps } from "@/src/interfaces/inicio";
 
 export function SpeedChart({ speed, maxSpeed = 220 }: SpeedChartProps) {
   const size = 140;

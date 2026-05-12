@@ -3,11 +3,7 @@ import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './style';
-
-interface CalendarPickerProps {
-  selectedDate: Date | null;
-  onSelectDate: (date: Date) => void;
-}
+import { CalendarPickerProps } from "@/src/interfaces/agendamento";
 
 const DAYS_OF_WEEK = ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sá'];
 const MONTH_NAMES = [

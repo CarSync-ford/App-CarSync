@@ -2,9 +2,7 @@ import { useEffect, useRef } from "react";
 import { Animated, StyleSheet, Text, View } from "react-native";
 import { Colors } from '@/constants/Constants';
 import { styles } from './style';
-
-type Segment = { text: string; highlight?: boolean };
-type Notification = { id: number; segments: Segment[]; time: string };
+import { Segment, Notification } from "@/src/interfaces/inicio";
 
 const notifications: Notification[] = [
   {

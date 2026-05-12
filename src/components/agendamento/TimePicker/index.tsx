@@ -1,12 +1,7 @@
 import { Colors } from '@/constants/Constants';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './style';
-
-interface TimePickerProps {
-  selectedTime: string | null;
-  onSelectTime: (time: string) => void;
-  availableTimes: string[];
-}
+import { TimePickerProps } from "@/src/interfaces/agendamento";
 
 export function TimePicker({ selectedTime, onSelectTime, availableTimes }: TimePickerProps) {
   return (

@@ -3,10 +3,7 @@ import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text, TouchableOpacity } from 'react-native';
 import { styles } from './style';
-
-interface NovoAgendamentoButtonProps {
-  onPress: () => void;
-}
+import { NovoAgendamentoButtonProps } from "@/src/interfaces/agendamento";
 
 export function NovoAgendamentoButton({ onPress }: NovoAgendamentoButtonProps) {
   return (

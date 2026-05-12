@@ -2,15 +2,7 @@ import { Colors } from "@/constants/Constants";
 import { ReactNode } from "react";
 import { DimensionValue, StyleSheet, Text, View } from "react-native";
 import { styles } from './style';
-
-interface CardProps {
-  title: string;
-  icon?: ReactNode;
-  width: DimensionValue;
-  children?: ReactNode;
-  iconColor: string;
-  height?: DimensionValue;
-}
+import { CardProps } from "@/src/interfaces/inicio";
 
 export function Card({ title, icon, width, children, iconColor, height = "auto" }: CardProps) {
   return (

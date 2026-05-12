@@ -5,12 +5,8 @@ import { NovoAgendamentoButton } from "@/src/components/agendamento/NovoAgendame
 import { AgendamentosList } from "@/src/components/agendamento/AgendamentosList";
 import { HistoricoList } from "@/src/components/agendamento/HistoricoList";
 import { NovoAgendamentoModal } from "@/src/components/agendamento/NovoAgendamentoModal";
-import {
-  IAgendamento as AgendamentoData,
-  IAgendamento,
-} from "@/src/components/agendamento/AgendamentoCard";
-import { Historico } from "@/src/components/agendamento/HistoricoCard";
 import { Colors } from "@/constants/Constants";
+import { IAgendamento, Historico } from "@/src/interfaces/agendamento";
 
 var AGENDAMENTOS_MOCK: AgendamentoData[] = [];
 

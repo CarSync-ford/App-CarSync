@@ -16,16 +16,10 @@ import {
   View,
 } from "react-native";
 import { CalendarPicker } from "../CalendarPicker";
-import { Location, LocationPicker } from "../LocationPicker";
+import { LocationPicker } from "../LocationPicker";
 import { TimePicker } from "../TimePicker";
-import { IAgendamento } from "../AgendamentoCard";
 import { styles } from './style';
-
-interface NovoAgendamentoModalProps {
-  visible: boolean;
-  onClose: () => void;
-  onConfirm: (data: IAgendamento) => void;
-}
+import { NovoAgendamentoModalProps, Location, IAgendamento } from "@/src/interfaces/agendamento";
 
 const MOTIVOS = [
   "Manutenção preventiva",

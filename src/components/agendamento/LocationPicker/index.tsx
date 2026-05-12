@@ -1,19 +1,7 @@
 import { Colors } from '@/constants/Constants';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './style';
-
-export interface Location {
-  id: string;
-  distancia: string;
-  endereco: string;
-  maisProxima?: boolean;
-}
-
-interface LocationPickerProps {
-  selectedLocation: string | null;
-  onSelectLocation: (locationId: string) => void;
-  locations: Location[];
-}
+import { Location, LocationPickerProps } from "@/src/interfaces/agendamento";
 
 export function LocationPicker({
   selectedLocation,

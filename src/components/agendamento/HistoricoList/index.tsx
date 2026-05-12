@@ -1,12 +1,9 @@
 import { Colors } from "@/constants/Constants";
 import { FontAwesome6 as FontAwesome } from "@expo/vector-icons";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Historico, HistoricoCard } from "../HistoricoCard";
+import { HistoricoCard } from "../HistoricoCard";
 import { styles } from './style';
-
-interface HistoricoListProps {
-  historicos: Historico[];
-}
+import { HistoricoListProps, Historico } from "@/src/interfaces/agendamento";
 
 export function HistoricoList({ historicos }: HistoricoListProps) {
   return (
