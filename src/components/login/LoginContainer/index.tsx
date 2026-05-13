@@ -3,13 +3,13 @@ import { View, Text, Image, TouchableOpacity, KeyboardAvoidingView, Platform, Sc
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '@/constants/Constants';
 import LoginInput from '@/src/components/login/LoginInput';
-import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '@/src/contexts/AuthContext';
 import { ILoginCredentials } from '@/src/interfaces/login';
 import { styles } from './style';
 
 export default function LoginContainer() {
   const [credentials, setCredentials] = useState<ILoginCredentials>({ usuario: '', senha: '' });
+  const { signIn } = useAuth();
 
   const handleLogin = async () => {
     if (!credentials.usuario || !credentials.senha) {
@@ -18,15 +18,10 @@ export default function LoginContainer() {
     }
 
     try {
-      // Mock API call and token saving for now
-      const mockToken = "eyMockTokenAuth123";
-      await AsyncStorage.setItem('@auth_token', mockToken);
-      await AsyncStorage.setItem('@auth_user', credentials.usuario);
-      
-      // Navigate to Home
-      router.replace('/(tabs)');
+      await signIn(credentials.usuario, credentials.senha);
+      // Obs: O redirecionamento agora e gerenciado pelo RootLayoutNav
     } catch (e) {
-      Alert.alert('Erro', 'Ocorreu um erro ao salvar o login.');
+      Alert.alert('Erro', 'Ocorreu um erro ao realizar o login.');
     }
   };
 
