@@ -15,14 +15,14 @@ function RootLayoutNav() {
   useEffect(() => {
     if (isLoading) return;
     
-    const isLoginScreen = segments[0] === 'login';
+    const isLoginScreen = String(segments[0]) === 'login';
 
     if (!userToken && !isLoginScreen) {
       // Usuario nao logado tentando acessar conteudo restrito
-      router.replace('/login');
+      router.replace('/login' as any);
     } else if (userToken && isLoginScreen) {
       // Usuario ja logado tentando acessar o login
-      router.replace('/(tabs)');
+      router.replace('/(tabs)' as any);
     }
   }, [userToken, segments, isLoading]);
 

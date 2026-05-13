@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, Image, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, Platform, ScrollView, Alert, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Video, ResizeMode } from 'expo-av';
 import { Colors } from '@/constants/Constants';
@@ -10,8 +10,10 @@ import { styles } from './style';
 
 export default function LoginContainer() {
   const [credentials, setCredentials] = useState<ILoginCredentials>({ usuario: '', senha: '' });
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const { signIn } = useAuth();
   const videoRef = useRef<Video>(null);
+  const scrollRef = useRef<ScrollView>(null);
 
   const handlePlaybackStatusUpdate = (status: any) => {
     if (status.didJustFinish) {
@@ -24,6 +26,26 @@ export default function LoginContainer() {
       }, 5000);
     }
   };
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates.height);
+        setTimeout(() => {
+          scrollRef.current?.scrollToEnd({ animated: true });
+        }, 100);
+      }
+    );
+    const hideSubscription = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => setKeyboardHeight(0)
+    );
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const handleLogin = async () => {
     if (!credentials.usuario || !credentials.senha) {
@@ -44,17 +66,15 @@ export default function LoginContainer() {
       colors={[Colors.degrade_login.topo, Colors.degrade_login.base]}
       style={styles.background}
     >
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={styles.keyboardView}
+      <ScrollView 
+        ref={scrollRef}
+        contentContainerStyle={styles.scrollContent} 
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        overScrollMode="never"
+        keyboardShouldPersistTaps="handled"
       >
-        <ScrollView 
-          contentContainerStyle={styles.scrollContent} 
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          overScrollMode="never"
-        >
-          <View style={styles.sheetContainer}>
+        <View style={[styles.sheetContainer, { paddingBottom: 40 + keyboardHeight }]}>
             <Video 
               ref={videoRef}
               source={require('@/assets/videos/video_fordinho.mp4')} 
@@ -101,7 +121,6 @@ export default function LoginContainer() {
             </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
     </LinearGradient>
   );
 }
