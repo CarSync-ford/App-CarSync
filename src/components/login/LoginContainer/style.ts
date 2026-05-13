@@ -23,9 +23,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 200,
-    height: 150,
-    marginTop: -100,
+    width: 300,
+    height: 220,
     marginBottom: 20,
   },
   headerText: {
@@ -33,7 +32,7 @@ export const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: 'bold',
     color: Colors.light.preto,
     marginBottom: 8,

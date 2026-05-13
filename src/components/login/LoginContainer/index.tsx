@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, Image, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Video, ResizeMode } from 'expo-av';
 import { Colors } from '@/constants/Constants';
 import LoginInput from '@/src/components/login/LoginInput';
 import { useAuth } from '@/src/contexts/AuthContext';
@@ -10,6 +11,19 @@ import { styles } from './style';
 export default function LoginContainer() {
   const [credentials, setCredentials] = useState<ILoginCredentials>({ usuario: '', senha: '' });
   const { signIn } = useAuth();
+  const videoRef = useRef<Video>(null);
+
+  const handlePlaybackStatusUpdate = (status: any) => {
+    if (status.didJustFinish) {
+      setTimeout(async () => {
+        try {
+          await videoRef.current?.playFromPositionAsync(0);
+        } catch (error) {
+          // Ignores if component unmounted
+        }
+      }, 5000);
+    }
+  };
 
   const handleLogin = async () => {
     if (!credentials.usuario || !credentials.senha) {
@@ -31,15 +45,24 @@ export default function LoginContainer() {
       style={styles.background}
     >
       <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.keyboardView}
       >
-        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <ScrollView 
+          contentContainerStyle={styles.scrollContent} 
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          overScrollMode="never"
+        >
           <View style={styles.sheetContainer}>
-            <Image 
-              source={require('@/assets/images/fordinho.png')} 
+            <Video 
+              ref={videoRef}
+              source={require('@/assets/videos/video_fordinho.mp4')} 
               style={styles.logo} 
-              resizeMode="contain" 
+              resizeMode={ResizeMode.CONTAIN}
+              shouldPlay
+              isMuted
+              onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
             />
             
             <View style={styles.headerText}>

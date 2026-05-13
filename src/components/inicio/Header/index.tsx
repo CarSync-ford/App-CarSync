@@ -4,10 +4,12 @@ import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Colors } from '@/constants/Constants';
 import { NotificationPanel } from "../NotificationPanel";
+import { useAuth } from '@/src/contexts/AuthContext';
 import { styles } from './style';
 
 export function Header() {
   const [showNotifications, setShowNotifications] = useState(false);
+  const { signOut } = useAuth();
 
   return (
     <View style={styles.wrapper}>
@@ -27,13 +29,19 @@ export function Header() {
           </View>
         </View>
 
-        <TouchableOpacity
-          style={styles.bellContainer}
-          onPress={() => setShowNotifications((v) => !v)}
-        >
-          <FontAwesome name="bell" size={26} color={Colors.light.preto} solid />
-          <View style={styles.badge} />
-        </TouchableOpacity>
+        <View style={styles.rightGroup}>
+          <TouchableOpacity
+            style={styles.bellContainer}
+            onPress={() => setShowNotifications((v) => !v)}
+          >
+            <FontAwesome name="bell" size={26} color={Colors.light.preto} solid />
+            <View style={styles.badge} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.logoutButton} onPress={signOut}>
+            <FontAwesome name="right-from-bracket" size={24} color={Colors.light.preto} />
+          </TouchableOpacity>
+        </View>
       </BlurView>
 
       <NotificationPanel visible={showNotifications} />
