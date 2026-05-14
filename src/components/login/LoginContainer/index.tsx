@@ -4,14 +4,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Video, ResizeMode } from 'expo-av';
 import { Colors } from '@/constants/Constants';
 import LoginInput from '@/src/components/login/LoginInput';
-import { useAuth } from '@/src/contexts/AuthContext';
 import { ILoginCredentials } from '@/src/interfaces/login';
 import { styles } from './style';
+import { useRouter } from 'expo-router';
 
 export default function LoginContainer() {
   const [credentials, setCredentials] = useState<ILoginCredentials>({ usuario: '', senha: '' });
   const [keyboardHeight, setKeyboardHeight] = useState(0);
-  const { signIn } = useAuth();
+  const router = useRouter();
   const videoRef = useRef<Video>(null);
   const scrollRef = useRef<ScrollView>(null);
 
@@ -54,8 +54,8 @@ export default function LoginContainer() {
     }
 
     try {
-      await signIn(credentials.usuario, credentials.senha);
-      // Obs: O redirecionamento agora e gerenciado pelo RootLayoutNav
+      // Validaria na API aqui, e em caso de sucesso manda para o 2FA
+      router.push('/mfa');
     } catch (e) {
       Alert.alert('Erro', 'Ocorreu um erro ao realizar o login.');
     }
