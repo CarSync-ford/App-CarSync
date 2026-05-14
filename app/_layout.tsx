@@ -15,13 +15,13 @@ function RootLayoutNav() {
   useEffect(() => {
     if (isLoading) return;
     
-    const isLoginScreen = String(segments[0]) === 'login';
+    const isAuthScreen = String(segments[0]) === 'login' || String(segments[0]) === 'mfa';
 
-    if (!userToken && !isLoginScreen) {
+    if (!userToken && !isAuthScreen) {
       // Usuario nao logado tentando acessar conteudo restrito
       router.replace('/login' as any);
-    } else if (userToken && isLoginScreen) {
-      // Usuario ja logado tentando acessar o login
+    } else if (userToken && isAuthScreen) {
+      // Usuario ja logado tentando acessar rotas de autenticacao
       router.replace('/(tabs)' as any);
     }
   }, [userToken, segments, isLoading]);
@@ -30,6 +30,7 @@ function RootLayoutNav() {
     <Stack screenOptions={{ contentStyle: { backgroundColor: Colors.light.background } }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="mfa" options={{ headerShown: false }} />
     </Stack>
   );
 }
