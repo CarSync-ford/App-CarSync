@@ -59,4 +59,12 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.azul,
   },
+  rightGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
+  logoutButton: {
+    padding: 5,
+  },
 });

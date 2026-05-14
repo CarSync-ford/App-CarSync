@@ -26,5 +26,9 @@ export const Colors = {
     gradiente_amarelo: {
         claro: "#EACE65",
         escuro: "#D7A829"
+    },
+    degrade_login: {
+        topo: '#38419E',
+        base: '#EE9B52'
     }
 }
