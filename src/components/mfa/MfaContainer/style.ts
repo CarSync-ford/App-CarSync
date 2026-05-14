@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 40,
     paddingBottom: 40,
-    minHeight: '60%', 
   },
   title: {
     fontSize: 32,
