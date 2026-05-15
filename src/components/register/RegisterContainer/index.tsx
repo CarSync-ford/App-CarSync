@@ -56,7 +56,7 @@ export default function RegisterContainer() {
     }
     
     Alert.alert('Sucesso', 'Cadastro realizado com sucesso!', [
-      { text: 'OK', onPress: () => router.replace('/login') }
+      { text: 'OK', onPress: () => router.push('/two-factor-setup') }
     ]);
   };
 
