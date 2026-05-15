@@ -15,7 +15,7 @@ function RootLayoutNav() {
   useEffect(() => {
     if (isLoading) return;
     
-    const isAuthScreen = String(segments[0]) === 'login' || String(segments[0]) === 'mfa';
+    const isAuthScreen = String(segments[0]) === 'login' || String(segments[0]) === 'mfa' || String(segments[0]) === 'register';
 
     if (!userToken && !isAuthScreen) {
       // Usuario nao logado tentando acessar conteudo restrito
@@ -31,6 +31,7 @@ function RootLayoutNav() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="login" options={{ headerShown: false }} />
       <Stack.Screen name="mfa" options={{ headerShown: false }} />
+      <Stack.Screen name="register" options={{ headerShown: false }} />
     </Stack>
   );
 }
