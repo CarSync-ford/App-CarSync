@@ -115,7 +115,7 @@ export default function LoginContainer() {
 
             <View style={styles.footer}>
               <Text style={styles.footerText}>Não possui uma conta? </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push('/register')}>
                 <Text style={styles.registerText}>Cadastre-se</Text>
               </TouchableOpacity>
             </View>
