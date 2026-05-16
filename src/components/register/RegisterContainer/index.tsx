@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, Platform, ScrollView, Alert, Keyboard } from 'react-native';
+import { View, Text, TouchableOpacity, Platform, ScrollView, Alert, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Video, ResizeMode } from 'expo-av';
 import { Colors } from '@/constants/Constants';
 import LoginInput from '@/src/components/login/LoginInput';
-import { ILoginCredentials } from '@/src/interfaces/login';
+import { IRegisterCredentials } from '@/src/interfaces/register';
 import { styles } from './style';
 import { useRouter } from 'expo-router';
 
-export default function LoginContainer() {
-  const [credentials, setCredentials] = useState<ILoginCredentials>({ usuario: '', senha: '' });
+export default function RegisterContainer() {
+  const [credentials, setCredentials] = useState<IRegisterCredentials>({ usuario: '', senha: '', confirmarSenha: '' });
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const router = useRouter();
   const videoRef = useRef<Video>(null);
@@ -20,9 +20,7 @@ export default function LoginContainer() {
       setTimeout(async () => {
         try {
           await videoRef.current?.playFromPositionAsync(0);
-        } catch (error) {
-          // Ignores if component unmounted
-        }
+        } catch (error) {}
       }, 5000);
     }
   };
@@ -47,18 +45,17 @@ export default function LoginContainer() {
     };
   }, []);
 
-  const handleLogin = async () => {
-    if (!credentials.usuario || !credentials.senha) {
+  const handleRegister = () => {
+    if (!credentials.usuario || !credentials.senha || !credentials.confirmarSenha) {
       Alert.alert('Erro', 'Preencha todos os campos.');
       return;
     }
-
-    try {
-      // Validaria na API aqui, e em caso de sucesso manda para o 2FA
-      router.push('/mfa');
-    } catch (e) {
-      Alert.alert('Erro', 'Ocorreu um erro ao realizar o login.');
+    if (credentials.senha !== credentials.confirmarSenha) {
+      Alert.alert('Erro', 'As senhas não coincidem.');
+      return;
     }
+    
+    router.push('/two-factor-setup');
   };
 
   return (
@@ -86,8 +83,8 @@ export default function LoginContainer() {
             />
             
             <View style={styles.headerText}>
-              <Text style={styles.title}>Entrar</Text>
-              <Text style={styles.subtitle}>Bem-vindo de volta! Por favor, faça login para continuar.</Text>
+              <Text style={styles.title}>Cadastro</Text>
+              <Text style={styles.subtitle}>Bem-vindo! Por favor, registre-se para continuar.</Text>
             </View>
 
             <LoginInput 
@@ -104,19 +101,22 @@ export default function LoginContainer() {
               value={credentials.senha}
               onChangeText={(t) => setCredentials({ ...credentials, senha: t })}
             />
+            <LoginInput 
+              label="Confirmar senha" 
+              placeholder="*************" 
+              isPassword 
+              value={credentials.confirmarSenha}
+              onChangeText={(t) => setCredentials({ ...credentials, confirmarSenha: t })}
+            />
 
-            <TouchableOpacity style={styles.forgotPassword}>
-              <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Text style={styles.loginButtonText}>Entrar</Text>
+            <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+              <Text style={styles.registerButtonText}>Continuar</Text>
             </TouchableOpacity>
 
             <View style={styles.footer}>
-              <Text style={styles.footerText}>Não possui uma conta? </Text>
-              <TouchableOpacity onPress={() => router.push('/register')}>
-                <Text style={styles.registerText}>Cadastre-se</Text>
+              <Text style={styles.footerText}>Já possui uma conta? </Text>
+              <TouchableOpacity onPress={() => router.back()}>
+                <Text style={styles.loginText}>Faça login</Text>
               </TouchableOpacity>
             </View>
           </View>
