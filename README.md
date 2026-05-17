@@ -1,50 +1,76 @@
-# Welcome to your Expo app 👋
+Nomes:
+- 558385 - Alexia Ramalho
+- 557943 - Enzo Real
+- 555454 - Gustavo Pasquini
+- 559008 - Hellen Silva
+- 557397 - Lorenzo Acquesta
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
 
-1. Install dependencies
+# 🚗 CarSync: Inteligência Veicular Ford
+### Desafio escolhido: Desafio 2 - Retenção de Clientes no Pós-venda
+> **Projeto estratégico desenvolvido para o Challenge Ford 2026**
 
-   ```bash
-   npm install
-   ```
+O **CarSync** é um MVP (Minimum Viable Product) focado na experiência do motorista moderno. Ele nasceu com a missão de transformar o smartphone em uma central de comando secundária, totalmente integrada à multimídia do veículo e potencializada por Inteligência Artificial.
 
-2. Start the app
+## 💡 O Conceito
+Diferente de apps de manutenção comuns, o CarSync foi desenhado para ser uma extensão do carro:
+- **Ser Extensivo à Multimídia**: Interface otimizada para ser espelhada ou consumida via APIs de infoentretenimento da Ford.
+- **IA Generativa (Fordinho)**: Um assistente pessoal que entende o estado do carro e proativamente sugere ações.
+- **Foco no Motorista**: Redução de carga cognitiva com dashboards simplificados e agendamentos inteligentes.
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## ✨ Funcionalidades Principais (MVP)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 📊 Dashboard de Diagnóstico em Tempo Real
+O coração do monitoramento do veículo. Projetado para simular a leitura de dados via porta OBD-II da Ford.
+- **Medidores Visuais**: Acompanhamento de velocidade, nível de combustível, pressão dos pneus e nível de óleo.
+- **Status do Veículo**: Listagem detalhada de RPM, temperaturas e outros sensores essenciais (OBD-II Ready).
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 🤖 Chat IA: "Fordinho"
+Assistente proativo integrado ao sistema para suporte técnico e interação intuitiva.
+- **Interface Humanizada**: Indicadores de digitação dinâmicos e balões de chat exclusivos.
+- **Suporte a Áudio**: Design preparado para interações por voz e áudio, ideal para uso durante a condução.
+- **Conhecimento Técnico**: Respostas baseadas em diagnósticos reais e manuais do veículo.
 
-## Get a fresh project
+### 📅 Sistema de Agendamento Inteligente
+Conecta o motorista diretamente à rede de concessionárias Ford.
+- **Calendário Customizado**: Experiência fluida para seleção de slots de manutenção sem libs externas.
+- **Localização**: Identificação automática das unidades mais próximas para agilidade.
 
-When you're ready, run:
+### 🔐 Segurança e Autenticação
+- **MFA (Multi-Factor Authentication)**: Proteção extra via código OTP de 6 dígitos customizado.
+- **Router Guard**: Proteção centralizada de rotas via Context API para garantir a privacidade dos dados.
 
-```bash
-npm run reset-project
-```
+---
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🏗️ Arquitetura e Organização
+Para garantir escalabilidade, o projeto segue padrões de engenharia Enterprise:
 
-## Learn more
+- **Componentização Modular**: Divisão clara entre **View** (`index.tsx`) e **Styles** (`style.ts`) em cada diretório de componente.
+- **Camada de Domínio**: Interfaces e contratos centralizados em `src/interfaces/`, garantindo que o código seja totalmente Type-Safe.
+- **Estado Global**: Gerenciamento de sessão e autenticação via `AuthContext`.
+- **Navegação Moderna**: Utilização do `Expo Router` (File-based Routing) para uma estrutura de pastas limpa.
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🎨 Design System e Estilos
+A identidade visual do CarSync é centralizada e baseada em tokens de design, facilitando manutenções e garantindo a consistência da marca Ford.
 
-## Join the community
+**Localização Central**: `constants/Constants.ts`
 
-Join our community of developers creating universal apps.
+### Paleta de Cores Identitária:
+- **Primárias**: Azul Ford (`#347ED5`), Azul Claro (`#A1BCE1`).
+- **Feedback Visual**: Verde (Sucesso), Amarelo (Atenção), Vermelho (Crítico).
+- **Gradientes Exclusivos**:
+  - `degrade_login`: Transição elegante do azul profundo ao laranja (Identidade Login).
+  - `gradiente_amarelo`: Utilizado para destacar o mascote Fordinho.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 🚀 Visão de Futuro
+Como este é um MVP, os próximos passos visam a integração profunda com o hardware Ford:
+1. **Integração SYNC 4/5**: Renderização nativa na tela multimídia via Android Auto/Apple CarPlay.
+2. **Telemetria Proativa**: Notificações push baseadas em desgaste real de peças via telemetria avançada.
+3. **Voice Commands**: Controle total de periféricos (ar-condicionado, janelas) via comando de voz integrado à IA.

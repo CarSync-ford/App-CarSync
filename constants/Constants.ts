@@ -10,6 +10,9 @@ export const Colors = {
         background: '#E3E2E8',
         preto: '#3C3737',
         branco_cards: '#FFFFFF85',
+        branco_cards_agenda: "#F2F2F2",
+        borda_cards_agenda: "#E4E4E4",
+        cinza: "#B3B3B3"
     },
     dark: {
         background: '#313552',
@@ -19,5 +22,13 @@ export const Colors = {
     degrade: {
         azul_claro: '#347ED5',
         azul_escuro: '#38419E',
+    },
+    gradiente_amarelo: {
+        claro: "#EACE65",
+        escuro: "#D7A829"
+    },
+    degrade_login: {
+        topo: '#38419E',
+        base: '#EE9B52'
     }
 }
