@@ -3,7 +3,8 @@ import { FontAwesome6 as FontAwesome } from "@expo/vector-icons";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { HistoricoCard } from "../HistoricoCard";
 import { styles } from './style';
-import { HistoricoListProps, Historico } from "@/src/interfaces/agendamento";
+import { Historico } from '@/src/types/agendamento';
+import { HistoricoListProps } from '@/src/interfaces/agendamento';;
 
 export function HistoricoList({ historicos }: HistoricoListProps) {
   return (

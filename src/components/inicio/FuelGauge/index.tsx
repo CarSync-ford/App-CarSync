@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Colors } from '@/constants/Constants';
 import { styles } from './style';
-import { FuelGaugeProps } from "@/src/interfaces/inicio";
+import { FuelGaugeProps } from '@/src/types/inicio';;
 
 export function FuelGauge({ level }: FuelGaugeProps) {
   return (

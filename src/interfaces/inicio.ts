@@ -1,3 +1,7 @@
+import { ReactNode } from 'react';
+import { DimensionValue } from 'react-native';
+import { Segment, InfoItem } from '../types/inicio';;
+
 export interface CardProps {
     title: string;
     icon?: ReactNode;
@@ -7,34 +11,12 @@ export interface CardProps {
     height?: DimensionValue;
 }
 
-export interface FuelGaugeProps {
-    level: number;
-}
-
-export type Segment = { text: string; highlight?: boolean };
-export type Notification = { id: number; segments: Segment[]; time: string };
-
-export interface OilLevelProps {
-    level: number;
-}
-
-export interface InfoItem {
-    label: string;
-    value: string | number;
+export interface Notification { 
+    id: number; 
+    segments: Segment[]; 
+    time: string; 
 }
 
 export interface OtherInfosProps {
     infos: InfoItem[];
-}
-
-export interface SpeedChartProps {
-    speed: number;
-    maxSpeed?: number;
-}
-
-export interface TirePressureProps {
-    fl: number;
-    fr: number;
-    rl: number;
-    rr: number;
 }

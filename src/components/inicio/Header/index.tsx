@@ -6,17 +6,19 @@ import { Colors } from '@/constants/Constants';
 import { NotificationPanel } from "../NotificationPanel";
 import { useAuth } from '@/src/contexts/AuthContext';
 import { styles } from './style';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function Header() {
   const [showNotifications, setShowNotifications] = useState(false);
-  const { signOut } = useAuth();
+  const { signOut, username } = useAuth();
+  const insets = useSafeAreaInsets();
 
   return (
     <View style={styles.wrapper}>
       <BlurView
         intensity={20}
-        tint="Colors.light.background"
-        style={styles.container}
+        tint="light"
+        style={[styles.container, { paddingTop: insets.top + 10 }]}
       >
         <View style={styles.leftGroup}>
           <View style={styles.profileCircle}>
@@ -24,7 +26,7 @@ export function Header() {
           </View>
 
           <View style={styles.textContainer}>
-            <Text style={styles.nameText}>Milena Marez</Text>
+            <Text style={styles.nameText}>{username ?? 'Carregando...'}</Text>
             <Text style={styles.subtitleText}>Ranger Raptor {">"}</Text>
           </View>
         </View>
@@ -44,7 +46,11 @@ export function Header() {
         </View>
       </BlurView>
 
-      <NotificationPanel visible={showNotifications} />
+      <NotificationPanel
+        visible={showNotifications}
+        onClose={() => setShowNotifications(false)}
+        topOffset={insets.top + 64}
+      />
     </View>
   );
 }

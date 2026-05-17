@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 24,
-    paddingTop: 15,
     paddingBottom: 10,
     backgroundColor: "rgba(227, 226, 232, 0.85)",
     overflow: "hidden",

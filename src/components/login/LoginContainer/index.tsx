@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { Colors } from '@/constants/Constants';
 import LoginInput from '@/src/components/login/LoginInput';
-import { ILoginCredentials } from '@/src/interfaces/login';
+import { ILoginCredentials } from '@/src/types/login';;
 import { loginUser } from '@/src/services/authService';
 import { styles } from './style';
 import { useRouter } from 'expo-router';

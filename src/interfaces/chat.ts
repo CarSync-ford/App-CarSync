@@ -1,3 +1,5 @@
+import { ChatBubbleType } from '../types/chat';;
+
 export interface ChatBubbleProps {
     isUser: boolean;
     type: ChatBubbleType;
@@ -5,5 +7,3 @@ export interface ChatBubbleProps {
     time?: string;
     duration?: string;
 }
-
-export type ChatBubbleType = 'text' | 'audio' | 'typing';

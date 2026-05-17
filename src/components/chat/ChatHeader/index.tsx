@@ -20,31 +20,37 @@ export function ChatHeader() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top || 15 }]}>
-      <Pressable onPress={() => router.back()} style={styles.backButton}>
-        <FontAwesome name="chevron-left" size={20} color={Colors.light.preto} />
-      </Pressable>
+    <View style={styles.wrapper}>
+      <View style={[styles.container, { paddingTop: insets.top || 15 }]}>
+        <Pressable onPress={() => router.back()} style={styles.backButton}>
+          <FontAwesome name="chevron-left" size={20} color={Colors.light.preto} />
+        </Pressable>
 
-      <View style={styles.centerGroup}>
-        <Image
-          source={require('@/assets/images/fordinho_chat.png')}
-          style={styles.avatar}
-        />
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>Fordinho</Text>
-          <Text style={styles.subtitle}>Chat IA</Text>
+        <View style={styles.centerGroup}>
+          <Image
+            source={require('@/assets/images/fordinho_chat.png')}
+            style={styles.avatar}
+          />
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>Fordinho</Text>
+            <Text style={styles.subtitle}>Chat IA</Text>
+          </View>
         </View>
+
+        <TouchableOpacity
+          style={styles.bellContainer}
+          onPress={() => setShowNotifications((v) => !v)}
+        >
+          <FontAwesome name="bell" size={26} color={Colors.light.preto} solid />
+          <View style={styles.badge} />
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        style={styles.bellContainer}
-        onPress={() => setShowNotifications((v) => !v)}
-      >
-        <FontAwesome name="bell" size={26} color={Colors.light.preto} solid />
-        <View style={styles.badge} />
-      </TouchableOpacity>
-
-      <NotificationPanel visible={showNotifications} />
+      <NotificationPanel
+        visible={showNotifications}
+        onClose={() => setShowNotifications(false)}
+        topOffset={insets.top + 74}
+      />
     </View>
   );
 }

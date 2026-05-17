@@ -2,7 +2,8 @@ import { Colors } from '@/constants/Constants';
 import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './style';
-import { IAgendamento, AgendamentoCardProps } from "@/src/interfaces/agendamento";
+import { IAgendamento } from '@/src/types/agendamento';
+import { AgendamentoCardProps } from '@/src/interfaces/agendamento';;
 
 export function AgendamentoCard({ agendamento }: AgendamentoCardProps) {
   return (

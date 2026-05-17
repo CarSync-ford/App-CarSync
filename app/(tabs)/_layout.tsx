@@ -11,7 +11,8 @@ import { forwardRef } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Colors } from "../../constants/Constants";
 import { Header } from "../../src/components/inicio/Header";
-import { Icon, TabButtonProps } from "@/src/interfaces/navigation";
+import { Icon } from '@/src/types/navigation';
+import { TabButtonProps } from '@/src/interfaces/navigation';;
 
 const TabButton = forwardRef<View, TabButtonProps>(
   ({ icon, label, isFocused, ...props }, ref) => {

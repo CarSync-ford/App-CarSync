@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Colors } from '@/constants/Constants';
 import { styles } from './style';
-import { InfoItem, OtherInfosProps } from "@/src/interfaces/inicio";
+import { InfoItem } from '@/src/types/inicio';
+import { OtherInfosProps } from '@/src/interfaces/inicio';;
 
 export function OtherInfos({ infos }: OtherInfosProps) {
   return (

@@ -4,7 +4,8 @@ import { Text, View } from 'react-native';
 import { Colors } from '@/constants/Constants';
 import { TypingIndicator } from "../TypingIndicator";
 import { styles } from './style';
-import { ChatBubbleProps, ChatBubbleType } from "@/src/interfaces/chat";
+import { ChatBubbleType } from '@/src/types/chat';
+import { ChatBubbleProps } from '@/src/interfaces/chat';;
 
 export function ChatBubble({ isUser, type, message, time, duration }: ChatBubbleProps) {
   const isRight = isUser;

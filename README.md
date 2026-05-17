@@ -1,4 +1,14 @@
+Nomes:
+- 558385 - Alexia Ramalho
+- 557943 - Enzo Real
+- 555454 - Gustavo Pasquini
+- 559008 - Hellen Silva
+- 557397 - Lorenzo Acquesta
+
+
+
 # 🚗 CarSync: Inteligência Veicular Ford
+### Desafio escolhido: Desafio 2 - Retenção de Clientes no Pós-venda
 > **Projeto estratégico desenvolvido para o Challenge Ford 2026**
 
 O **CarSync** é um MVP (Minimum Viable Product) focado na experiência do motorista moderno. Ele nasceu com a missão de transformar o smartphone em uma central de comando secundária, totalmente integrada à multimídia do veículo e potencializada por Inteligência Artificial.
