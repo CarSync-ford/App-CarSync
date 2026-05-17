@@ -6,44 +6,16 @@ import { AgendamentosList } from "@/src/components/agendamento/AgendamentosList"
 import { HistoricoList } from "@/src/components/agendamento/HistoricoList";
 import { NovoAgendamentoModal } from "@/src/components/agendamento/NovoAgendamentoModal";
 import { Colors } from "@/constants/Constants";
-import { IAgendamento, Historico } from "@/src/interfaces/agendamento";
+import { IAgendamento, Historico } from '@/src/types/agendamento';;
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { agendamentosMock, historicosMock } from '@/src/data/agendamentosMock';
 
-var AGENDAMENTOS_MOCK: IAgendamento[] = [];
-
-var HISTORICOS_MOCK: Historico[] = [
-  {
-    id: "1",
-    data: "16/12/2025",
-    tipo: "Troca óleo",
-    realizado: true,
-  },
-  {
-    id: "2",
-    data: "16/12/2025",
-    tipo: "Troca óleo",
-    realizado: false,
-  },
-  {
-    id: "3",
-    data: "16/12/2025",
-    tipo: "Troca óleo",
-    realizado: true,
-  },
-  {
-    id: "4",
-    data: "16/12/2025",
-    tipo: "Troca óleo",
-    realizado: true,
-  },
-  {
-    id: "5",
-    data: "16/12/2025",
-    tipo: "Troca óleo",
-    realizado: true,
-  },
-];
+var AGENDAMENTOS_MOCK: IAgendamento[] = agendamentosMock;
+var HISTORICOS_MOCK: Historico[] = historicosMock;
 
 export default function Agendamento() {
+  const insets = useSafeAreaInsets();
+  const headerHeight = insets.top + 64;
   const [modalVisible, setModalVisible] = useState(false);
 
   const [agendamentos, setAgendamentos] = useState(AGENDAMENTOS_MOCK);
@@ -64,7 +36,7 @@ export default function Agendamento() {
     <View style={styles.wrapper}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={[styles.contentContainer, { paddingTop: headerHeight + 16 }]}
         showsVerticalScrollIndicator={false}
       >
         <FordinhoBanner />
@@ -98,7 +70,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: 19,
-    paddingTop: 75,
     gap: 16,
   },
 });

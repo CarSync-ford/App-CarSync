@@ -5,47 +5,52 @@ import { ChatInput } from "../../src/components/chat/ChatInput";
 
 export default function ChatIA() {
   return (
-    <KeyboardAvoidingView 
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <View style={styles.container}>
       <ChatHeader />
-      
-      <ScrollView 
-        style={styles.messagesContainer}
-        contentContainerStyle={styles.messagesContent}
-        showsVerticalScrollIndicator={false}
+
+      <KeyboardAvoidingView
+        style={styles.keyboardView}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <ChatBubble 
-          isUser={false}
-          type="text"
-          message="Como posso ajudar?"
-          time="12:34"
-        />
+        <ScrollView
+          style={styles.messagesContainer}
+          contentContainerStyle={styles.messagesContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <ChatBubble
+            isUser={false}
+            type="text"
+            message="Como posso ajudar?"
+            time="12:34"
+          />
 
-        <ChatBubble 
-          isUser={true}
-          type="audio"
-          message="Gostaria de saber Lorem ipsum dolor sitamet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consect. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          duration="0:12"
-          time="12:34"
-        />
+          <ChatBubble
+            isUser={true}
+            type="audio"
+            message="Gostaria de saber Lorem ipsum dolor sitamet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consect. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            duration="0:12"
+            time="12:34"
+          />
 
-        <ChatBubble 
-          isUser={false}
-          type="typing"
-        />
-      </ScrollView>
+          <ChatBubble
+            isUser={false}
+            type="typing"
+          />
+        </ScrollView>
 
-      <ChatInput />
-    </KeyboardAvoidingView>
+        <ChatInput />
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DCE7F5', // Cor de fundo semelhante ao protótipo
+    backgroundColor: '#DCE7F5',
+  },
+  keyboardView: {
+    flex: 1,
   },
   messagesContainer: {
     flex: 1,

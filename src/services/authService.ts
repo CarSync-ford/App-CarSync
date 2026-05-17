@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { apiFetch } from './api';
-import { IRegisterPayload, IRegisterResponse } from '@/src/interfaces/register';
-import { ILoginPayload, ILoginResponse } from '@/src/interfaces/login';
+import { IRegisterPayload, IRegisterResponse } from '@/src/types/register';;
+import { ILoginPayload, ILoginResponse } from '@/src/types/login';;
 
 export async function registerUser(payload: IRegisterPayload): Promise<IRegisterResponse> {
   const response = await apiFetch('/api/v1/user', {

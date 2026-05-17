@@ -3,7 +3,8 @@ import { FontAwesome6 as FontAwesome } from '@expo/vector-icons';
 import { Text, View, ScrollView } from 'react-native';
 import { AgendamentoCard } from "../AgendamentoCard";
 import { styles } from './style';
-import { AgendamentosListProps, IAgendamento } from "@/src/interfaces/agendamento";
+import { IAgendamento } from '@/src/types/agendamento';
+import { AgendamentosListProps } from '@/src/interfaces/agendamento';;
 
 export function AgendamentosList({ agendamentos }: AgendamentosListProps) {
   return (

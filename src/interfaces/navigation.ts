@@ -1,9 +1,7 @@
-import { FontAwesome6 as FontAwesome } from "@expo/vector-icons";
 import { TabTriggerSlotProps } from "expo-router/ui";
-import * as React from "react";
+import { Icon } from '../types/navigation';;
 
-export type Icon = React.ComponentProps<typeof FontAwesome>["name"];
-export type TabButtonProps = TabTriggerSlotProps & {
+export interface TabButtonProps extends TabTriggerSlotProps {
       icon: Icon;
       label: string;
-    };
+}

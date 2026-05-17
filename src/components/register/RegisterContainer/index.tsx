@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { Colors } from '@/constants/Constants';
 import LoginInput from '@/src/components/login/LoginInput';
-import { IRegisterCredentials } from '@/src/interfaces/register';
+import { IRegisterCredentials } from '@/src/types/register';;
 import { registerUser } from '@/src/services/authService';
 import { isValidEmail, isValidCPF, isValidPassword, maskCPF } from '@/src/utils/validation';
 import PasswordRules from '@/src/components/register/PasswordRules';

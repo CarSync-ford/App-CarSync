@@ -9,38 +9,20 @@ import { SpeedChart } from "@/src/components/inicio/SpeedChart";
 import { TirePressure } from "@/src/components/inicio/TirePressure";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { veiculoMock } from '@/src/data/veiculoMock';
 
 export default function Home() {
-  const dadosDoVeiculo = {
-    velocidade: 12,
-    combustivel: 80,
-    pressaoPneus: {
-      dianteiroEsquerdo: 32,
-      dianteiroDireito: 20,
-      traseiroEsquerdo: 32,
-      traseiroDireito: 32,
-    },
-    nivelOleo: 64,
-    outrasInfos: [
-      { label: "Temperatura do motor", value: "95ºC" },
-      { label: "Carga do motor", value: 1.96 },
-      { label: "Fuel trim short", value: -5.46 },
-      { label: "Fuel trim long", value: 11.71 },
-      { label: "Pressão do coletor", value: 31 },
-      { label: "RPM", value: 758 },
-      { label: "Temperatura do ar", value: 51 },
-      { label: "Avanço de ignição", value: 8.5 },
-      { label: "Posição do acelerador", value: 13.72 },
-      { label: "Pressão barométrica", value: 993 },
-      { label: "Tensão da ECU", value: 13.93 },
-    ],
-  };
+  const insets = useSafeAreaInsets();
+  // altura do header = status bar + padding superior (10) + conteúdo (~44px) + padding inferior (10)
+  const headerHeight = insets.top + 64;
+  const dadosDoVeiculo = veiculoMock;
 
   return (
 
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={[styles.contentContainer, { paddingTop: headerHeight + 16 }]}
         showsVerticalScrollIndicator={false}
       >
         <CardCarro />
@@ -137,7 +119,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: 19,
-    paddingTop: 75,
     gap: 21,
   },
   cardContainer: {

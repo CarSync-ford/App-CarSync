@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Colors } from '@/constants/Constants';
 import { styles } from './style';
-import { TirePressureProps } from "@/src/interfaces/inicio";
+import { TirePressureProps } from '@/src/types/inicio';;
 
 export function TirePressure({ fl, fr, rl, rr }: TirePressureProps) {
   

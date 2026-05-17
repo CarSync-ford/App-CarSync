@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
-export interface PasswordRulesProps {
-  password: string;
-}
+import { View, Text } from 'react-native';
+import { PasswordRulesProps } from '@/src/types/register';
+import { styles } from './style';
 
 const PASSWORD_RULES: { label: string; test: (p: string) => boolean }[] = [
   { label: 'Mínimo de 8 caracteres',  test: (p) => p.length >= 8 },
@@ -32,34 +30,3 @@ export default function PasswordRules({ password }: PasswordRulesProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: -4,
-    marginBottom: 8,
-    paddingHorizontal: 4,
-    gap: 3,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  dot: {
-    fontSize: 13,
-    color: '#8A8A8A',
-    width: 14,
-    textAlign: 'center',
-  },
-  dotMet: {
-    color: '#52C41A',
-    fontWeight: '700',
-  },
-  text: {
-    fontSize: 12,
-    color: '#8A8A8A',
-  },
-  textMet: {
-    color: '#52C41A',
-  },
-});

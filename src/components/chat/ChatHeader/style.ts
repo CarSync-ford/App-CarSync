@@ -2,6 +2,10 @@ import { Colors } from '@/constants/Constants';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  wrapper: {
+    position: "relative",
+    zIndex: 10,
+  },
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -9,7 +13,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 15,
     backgroundColor: "transparent",
-    zIndex: 10,
   },
   backButton: {
     padding: 10,

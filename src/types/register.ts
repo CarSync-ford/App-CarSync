@@ -1,18 +1,22 @@
-export interface IRegisterCredentials {
+export type IRegisterCredentials = {
   nome: string;
   email: string;
   cpf: string;
   senha: string;
   confirmarSenha: string;
-}
+};
 
-export interface IRegisterPayload {
+export type IRegisterPayload = {
   username: string;
   email: string;
   password: string;
   cpf: string;
-}
+};
 
-export interface IRegisterResponse {
+export type IRegisterResponse = {
   id: string;
-}
+};
+
+export type PasswordRulesProps = {
+  password: string;
+};

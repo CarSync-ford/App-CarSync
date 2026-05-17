@@ -1,22 +1,30 @@
 import { Colors } from '@/constants/Constants';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { height } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   panel: {
     position: "absolute",
-    top: "100%",
     left: 0,
     right: 0,
     backgroundColor: "#fff",
     paddingHorizontal: 20,
-    paddingVertical: 24,
-    zIndex: 20,
+    paddingTop: 20,
+    paddingBottom: 24,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 5,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 10,
   },
   title: {
     fontSize: 20,

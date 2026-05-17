@@ -19,7 +19,8 @@ import { CalendarPicker } from "../CalendarPicker";
 import { LocationPicker } from "../LocationPicker";
 import { TimePicker } from "../TimePicker";
 import { styles } from './style';
-import { NovoAgendamentoModalProps, Location, IAgendamento } from "@/src/interfaces/agendamento";
+import { Location, IAgendamento } from '@/src/types/agendamento';
+import { NovoAgendamentoModalProps } from '@/src/interfaces/agendamento';;
 
 const MOTIVOS = [
   "Manutenção preventiva",

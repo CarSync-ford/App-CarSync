@@ -1,7 +1,8 @@
 import { Colors } from '@/constants/Constants';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './style';
-import { Location, LocationPickerProps } from "@/src/interfaces/agendamento";
+import { Location } from '@/src/types/agendamento';
+import { LocationPickerProps } from '@/src/interfaces/agendamento';;
 
 export function LocationPicker({
   selectedLocation,
