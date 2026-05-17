@@ -1,31 +1,44 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, Platform, ScrollView, Alert, Keyboard } from 'react-native';
+import { View, Text, TouchableOpacity, Platform, ScrollView, Alert, Keyboard, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Video, ResizeMode } from 'expo-av';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import { Colors } from '@/constants/Constants';
 import LoginInput from '@/src/components/login/LoginInput';
 import { ILoginCredentials } from '@/src/interfaces/login';
+import { loginUser } from '@/src/services/authService';
 import { styles } from './style';
 import { useRouter } from 'expo-router';
+import { useAuth } from '@/src/contexts/AuthContext';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function LoginContainer() {
-  const [credentials, setCredentials] = useState<ILoginCredentials>({ usuario: '', senha: '' });
+  const [credentials, setCredentials] = useState<ILoginCredentials>({ email: '', senha: '' });
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const videoRef = useRef<Video>(null);
+  const { setUserToken } = useAuth();
+  const insets = useSafeAreaInsets();
   const scrollRef = useRef<ScrollView>(null);
 
-  const handlePlaybackStatusUpdate = (status: any) => {
-    if (status.didJustFinish) {
-      setTimeout(async () => {
-        try {
-          await videoRef.current?.playFromPositionAsync(0);
-        } catch (error) {
-          // Ignores if component unmounted
-        }
-      }, 5000);
-    }
-  };
+  const hasPlayedRef = useRef(false);
+
+  const player = useVideoPlayer(require('@/assets/videos/video_fordinho.mp4'), (p) => {
+    p.loop = false;
+    p.muted = true;
+    p.play();
+  });
+
+  useEffect(() => {
+    const sub = player.addListener('playingChange', ({ isPlaying }) => {
+      if (isPlaying) {
+        hasPlayedRef.current = true; // vídeo começou
+      } else if (hasPlayedRef.current) {
+        hasPlayedRef.current = false; // reseta para o próximo ciclo
+        setTimeout(() => player.replay(), 5000); // 5s de pausa antes de reiniciar
+      }
+    });
+    return () => sub.remove();
+  }, [player]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
@@ -48,23 +61,30 @@ export default function LoginContainer() {
   }, []);
 
   const handleLogin = async () => {
-    if (!credentials.usuario || !credentials.senha) {
+    if (!credentials.email || !credentials.senha) {
       Alert.alert('Erro', 'Preencha todos os campos.');
       return;
     }
 
+    setIsLoading(true);
     try {
-      // Validaria na API aqui, e em caso de sucesso manda para o 2FA
-      router.push('/mfa');
-    } catch (e) {
-      Alert.alert('Erro', 'Ocorreu um erro ao realizar o login.');
+      const data = await loginUser({
+        email: credentials.email,
+        password: credentials.senha,
+      });
+      // router.push('/mfa'); // autenticação de dois fatores desativada temporariamente
+      setUserToken(data.token); // atualiza o contexto → o guard do _layout redireciona para /(tabs)
+    } catch (error: any) {
+      Alert.alert('Erro ao entrar', error?.message ?? 'Ocorreu um erro inesperado.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <LinearGradient
       colors={[Colors.degrade_login.topo, Colors.degrade_login.base]}
-      style={styles.background}
+      style={[styles.background, { paddingTop: insets.top }]}
     >
       <ScrollView 
         ref={scrollRef}
@@ -75,14 +95,11 @@ export default function LoginContainer() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={[styles.sheetContainer, { paddingBottom: 40 + keyboardHeight }]}>
-            <Video 
-              ref={videoRef}
-              source={require('@/assets/videos/video_fordinho.mp4')} 
-              style={styles.logo} 
-              resizeMode={ResizeMode.CONTAIN}
-              shouldPlay
-              isMuted
-              onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
+            <VideoView
+              player={player}
+              style={styles.logo}
+              contentFit="contain"
+              nativeControls={false}
             />
             
             <View style={styles.headerText}>
@@ -91,10 +108,10 @@ export default function LoginContainer() {
             </View>
 
             <LoginInput 
-              label="Usuário" 
-              placeholder="Digite seu usuário" 
-              value={credentials.usuario}
-              onChangeText={(t) => setCredentials({ ...credentials, usuario: t })}
+              label="E-mail" 
+              placeholder="Digite seu e-mail" 
+              value={credentials.email}
+              onChangeText={(t) => setCredentials({ ...credentials, email: t })}
               autoCapitalize="none"
             />
             <LoginInput 
@@ -109,8 +126,11 @@ export default function LoginContainer() {
               <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Text style={styles.loginButtonText}>Entrar</Text>
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin} disabled={isLoading}>
+              {isLoading
+                ? <ActivityIndicator color="#fff" />
+                : <Text style={styles.loginButtonText}>Entrar</Text>
+              }
             </TouchableOpacity>
 
             <View style={styles.footer}>
