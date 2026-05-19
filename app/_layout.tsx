@@ -4,6 +4,7 @@ import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_7
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from "react";
 import { AuthProvider, useAuth } from "@/src/contexts/AuthContext";
+import Toast from 'react-native-toast-message';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -60,6 +61,7 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <RootLayoutNav />
+      <Toast />
     </AuthProvider>
   );
 }
