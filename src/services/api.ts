@@ -13,10 +13,15 @@
 import { getSecureItem } from '@/src/utils/secureStorage';
 import { authEvents } from '@/src/utils/authEvents';
 import { parseApiError } from '@/src/utils/errorHandler';
+import HmacSHA256 from 'crypto-js/hmac-sha256';
+import encBase64 from 'crypto-js/enc-base64';
 
 // ─── Configuração ──────────────────────────────────────────────────────────────
 
 const BASE_URL = process.env.EXPO_PUBLIC_API?.replace(/\/$/, '') ?? '';
+
+// Em produção, isso viria de variáveis de ambiente seguras (.env)
+const HMAC_SECRET = process.env.EXPO_PUBLIC_HMAC_SECRET ?? '';
 
 // Avisa se a URL não for HTTPS (apenas em desenvolvimento)
 if (__DEV__ && BASE_URL && !BASE_URL.startsWith('https://')) {
@@ -62,11 +67,31 @@ export async function apiFetch(path: string, options?: RequestInit): Promise<Res
   // Lê o token do armazenamento seguro
   const token = await getSecureItem('auth_token');
 
-  const buildHeaders = (): HeadersInit => ({
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...(options?.headers ?? {}),
-  });
+  const buildHeaders = (): HeadersInit => {
+    let payloadToSign = '';
+
+    const method = options?.method?.toUpperCase() || 'GET';
+    const body = options?.body;
+
+    if (method === 'GET' || !body) {
+      // Para GET (ou sem body), assina a URL relativa (ex: /api/v1/users?query=1)
+      // O argumento 'path' já contém o caminho relativo a partir do base url
+      payloadToSign = path;
+    } else {
+      // Para POST/PUT com body, assina o body
+      payloadToSign = typeof body === 'string' ? body : JSON.stringify(body);
+    }
+    
+    // Gera a assinatura HMAC-SHA256 e encoda para Base64
+    const signature = HmacSHA256(payloadToSign, HMAC_SECRET).toString(encBase64);
+
+    return {
+      'Content-Type': 'application/json',
+      'X-HMAC-Signature': signature,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(options?.headers ?? {}),
+    };
+  };
 
   let attempt = 0;
 
