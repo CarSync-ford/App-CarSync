@@ -26,7 +26,7 @@ npm install
 Crie um arquivo `.env` na raiz do projeto `App-CarSync/`:
 
 ```env
-EXPO_PUBLIC_API=https://carsync-api-dev.jollypebble-2e99731e.eastus.azurecontainerapps.io
+EXPO_PUBLIC_API=https://api.carsync.me
 ```
 
 > ⚠️ Sem essa variável, as chamadas de login e cadastro não funcionarão.
