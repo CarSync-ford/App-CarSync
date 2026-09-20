@@ -9,6 +9,7 @@ import { Colors } from "@/constants/Constants";
 import { IAgendamento, Historico } from '@/src/types/agendamento';;
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { agendamentosMock, historicosMock } from '@/src/data/agendamentosMock';
+import { useNotifications } from '@/src/contexts/NotificationContext';
 
 var AGENDAMENTOS_MOCK: IAgendamento[] = agendamentosMock;
 var HISTORICOS_MOCK: Historico[] = historicosMock;
@@ -19,6 +20,7 @@ export default function Agendamento() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [agendamentos, setAgendamentos] = useState(AGENDAMENTOS_MOCK);
+  const { adicionarNotificacao } = useNotifications();
 
   const handleConfirm = (data: IAgendamento) => {
     // Futuramente: salvar no backend/estado global
@@ -28,6 +30,31 @@ export default function Agendamento() {
       ...agendamentos,
     ]);
     console.log("lista de agendamento: ", agendamentos);
+
+    if (data.data) {
+      const hoje = new Date();
+      const amanha = new Date();
+      amanha.setDate(hoje.getDate() + 1);
+
+      const mesmoDia = (a: Date, b: Date) =>
+        a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate();
+
+      if (mesmoDia(data.data, hoje)) {
+        adicionarNotificacao([
+          { text: 'Você tem um ' },
+          { text: 'agendamento', highlight: true },
+          { text: ' para hoje' },
+        ]);
+      } else if (mesmoDia(data.data, amanha)) {
+        adicionarNotificacao([
+          { text: 'Você tem um ' },
+          { text: 'agendamento', highlight: true },
+          { text: ' para amanhã' },
+        ]);
+      }
+    }
 
     setModalVisible(false);
   };
