@@ -12,12 +12,14 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Colors } from '@/constants/Constants';
 import { useState } from "react";
+import { useNotifications } from '@/src/contexts/NotificationContext';
 import { styles } from './style';
 
 export function ChatHeader() {
   const [showNotifications, setShowNotifications] = useState(false);
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { notificacoes, temNaoLidas, marcarComoLida } = useNotifications();
 
   return (
     <View style={styles.wrapper}>
@@ -42,7 +44,7 @@ export function ChatHeader() {
           onPress={() => setShowNotifications((v) => !v)}
         >
           <FontAwesome name="bell" size={26} color={Colors.light.preto} solid />
-          <View style={styles.badge} />
+          {temNaoLidas && <View style={styles.badge} />}
         </TouchableOpacity>
       </View>
 
@@ -50,6 +52,8 @@ export function ChatHeader() {
         visible={showNotifications}
         onClose={() => setShowNotifications(false)}
         topOffset={insets.top + 74}
+        notificacoes={notificacoes}
+        onMarcarComoLida={marcarComoLida}
       />
     </View>
   );

@@ -32,6 +32,38 @@ export const styles = StyleSheet.create({
     color: Colors.azul,
     marginBottom: 12,
   },
+  tabsRow: {
+    flexDirection: "row",
+    backgroundColor: Colors.light.background,
+    borderRadius: 10,
+    padding: 4,
+    marginBottom: 14,
+    gap: 4,
+  },
+  tabButton: {
+    flex: 1,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  tabButtonActive: {
+    backgroundColor: Colors.azul,
+  },
+  tabText: {
+    fontSize: 13,
+    fontFamily: "Inter_600SemiBold",
+    color: Colors.light.preto,
+  },
+  tabTextActive: {
+    color: "#FFFFFF",
+  },
+  emptyText: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    color: Colors.light.cinza,
+    textAlign: "center",
+    paddingVertical: 12,
+  },
   item: {
     flexDirection: "row",
     justifyContent: "space-between",
