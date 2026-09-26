@@ -16,14 +16,6 @@ export const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  recordingText: {
-    flex: 1,
-    fontSize: 22,
-    fontFamily: 'Inter_600SemiBold',
-    color: Colors.light.preto,
-    marginRight: 12,
-    alignSelf: 'center',
-  },
   inputWrapper: {
     flex: 1,
     minHeight: 50,
@@ -45,16 +37,22 @@ export const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 20,
   },
-  micButton: {
+  sendButton: {
     width: 50,
     height: 50,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.azul,
     shadowColor: Colors.azul,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 4,
+  },
+  sendButtonDisabled: {
+    backgroundColor: Colors.cinza,
+    shadowOpacity: 0,
+    elevation: 0,
   },
 });

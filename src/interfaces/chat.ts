@@ -5,5 +5,4 @@ export interface ChatBubbleProps {
     type: ChatBubbleType;
     message?: string;
     time?: string;
-    duration?: string;
 }

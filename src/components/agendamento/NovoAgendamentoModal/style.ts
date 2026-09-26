@@ -85,16 +85,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 10,
   },
-  dropdownContainer: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 14,
-    padding: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 3,
-  },
   dropdownItem: {
     paddingVertical: 12,
     paddingHorizontal: 16,

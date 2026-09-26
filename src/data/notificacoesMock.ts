@@ -9,14 +9,6 @@ export const notificacoesMock: Notification[] = [
       { text: ' direito está abaixo do esperado' },
     ],
     time: '09:40',
-  },
-  {
-    id: 2,
-    segments: [
-      { text: 'Você tem um ' },
-      { text: 'agendamento', highlight: true },
-      { text: ' para amanhã' },
-    ],
-    time: '09:40',
+    lida: false,
   },
 ];

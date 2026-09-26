@@ -1,16 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Platform, ScrollView, Alert, Keyboard, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Platform, ScrollView, Keyboard, ActivityIndicator, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { Colors } from '@/constants/Constants';
 import LoginInput from '@/src/components/login/LoginInput';
-import { IRegisterCredentials } from '@/src/types/register';;
+import { IRegisterCredentials } from '@/src/types/register';
 import { registerUser } from '@/src/services/authService';
-import { isValidEmail, isValidCPF, isValidPassword, maskCPF } from '@/src/utils/validation';
+import { maskCPF } from '@/src/utils/validation';
+import { validateRegisterForm } from '@/src/hooks/useFormValidation';
 import PasswordRules from '@/src/components/register/PasswordRules';
 import { styles } from './style';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 interface FieldErrors {
   nome?: string;
@@ -79,39 +81,21 @@ export default function RegisterContainer() {
   };
 
   const validate = (): boolean => {
-    const newErrors: FieldErrors = {};
+    const result = validateRegisterForm({
+      nome: credentials.nome,
+      email: credentials.email,
+      cpf: credentials.cpf,
+      senha: credentials.senha,
+      confirmarSenha: credentials.confirmarSenha,
+    });
 
-    if (!credentials.nome.trim()) {
-      newErrors.nome = 'Nome é obrigatório.';
+    if (result.success) {
+      setErrors({});
+      return true;
     }
 
-    if (!credentials.email.trim()) {
-      newErrors.email = 'E-mail é obrigatório.';
-    } else if (!isValidEmail(credentials.email)) {
-      newErrors.email = 'Informe um e-mail válido.';
-    }
-
-    if (!credentials.cpf) {
-      newErrors.cpf = 'CPF é obrigatório.';
-    } else if (!isValidCPF(credentials.cpf)) {
-      newErrors.cpf = 'CPF inválido.';
-    }
-
-    const passwordCheck = isValidPassword(credentials.senha);
-    if (!credentials.senha) {
-      newErrors.senha = 'Senha é obrigatória.';
-    } else if (!passwordCheck.valid) {
-      newErrors.senha = passwordCheck.message;
-    }
-
-    if (!credentials.confirmarSenha) {
-      newErrors.confirmarSenha = 'Confirme a senha.';
-    } else if (credentials.senha !== credentials.confirmarSenha) {
-      newErrors.confirmarSenha = 'As senhas não coincidem.';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrors(result.errors as FieldErrors);
+    return false;
   };
 
   const handleRegister = async () => {
@@ -121,16 +105,21 @@ export default function RegisterContainer() {
     try {
       await registerUser({
         username: credentials.nome,
-        email: credentials.email,
+        email: credentials.email.toLowerCase(),
         password: credentials.senha,
         cpf: credentials.cpf.replace(/\D/g, ''),
       });
-      // router.push('/two-factor-setup'); // autenticação de dois fatores desativada temporariamente
       console.log('[RegisterContainer] Cadastro bem-sucedido, redirecionando para login...');
       router.replace('/login');
     } catch (error: any) {
-      console.log('[RegisterContainer] Erro no cadastro:', error?.message);
-      Alert.alert('Erro no cadastro', error?.message ?? 'Ocorreu um erro inesperado.');
+      const msg = error?.message ?? 'Ocorreu um erro inesperado.';
+      console.log('[RegisterContainer] Erro no cadastro:', msg);
+      Toast.show({
+        type: 'error',
+        text1: 'Erro no cadastro',
+        text2: msg,
+        position: 'top',
+      });
     } finally {
       setIsLoading(false);
     }
