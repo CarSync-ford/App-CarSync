@@ -1,87 +1,67 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { ChatHeader } from "../../src/components/chat/ChatHeader";
 import { ChatBubble } from "../../src/components/chat/ChatBubble";
 import { ChatInput } from "../../src/components/chat/ChatInput";
-import { useFordVoice } from "../../src/hooks/useFordVoice";
+import { respostasFordinho, respostasPorPalavraChave } from "../../src/data/chatRespostasMock";
 
 interface ChatMessage {
   id: string;
   isUser: boolean;
-  type: "text" | "audio" | "typing";
+  type: "text" | "typing";
   message?: string;
   time?: string;
 }
 
-export default function ChatIA() {
-  const WS_URL = process.env.EXPO_PUBLIC_WS_URL || "ws://localhost:8000/voice/stream";
-  const { status, transcript, lastAction, aiResponse, error, client } = useFordVoice(
-    WS_URL,
-    "9BFZZZ3UZPB123401" // Ford Ranger 2024 populada no seed
-  );
+function horaAtual() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
 
+function respostaPara(mensagem: string) {
+  const texto = mensagem.toLowerCase();
+  const encontrada = respostasPorPalavraChave.find((item) =>
+    item.palavras.some((palavra) => texto.includes(palavra))
+  );
+  if (encontrada) return encontrada.resposta;
+
+  return respostasFordinho[Math.floor(Math.random() * respostasFordinho.length)];
+}
+
+export default function ChatIA() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
       isUser: false,
       type: "text",
       message: "Olá! Eu sou o assistente da Ford. Como posso ajudar?",
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    }
+      time: horaAtual(),
+    },
   ]);
+  const [isTyping, setIsTyping] = useState(false);
 
-  // Atualiza mensagens baseadas no transcript
-  useEffect(() => {
-    if (transcript) {
-      console.log(`[Chat UI] 📝 Adicionando transcrição na tela: "${transcript}"`);
+  const responder = (mensagemUsuario: string) => {
+    setIsTyping(true);
+    setTimeout(() => {
+      setIsTyping(false);
       setMessages((prev) => [
         ...prev,
         {
-          id: Date.now().toString(),
-          isUser: true,
-          type: "text", // Poderíamos mostrar "audio", mas texto com a transcrição é mais limpo
-          message: transcript,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }
-      ]);
-    }
-  }, [transcript]);
-
-  // Tratar metadata (ações)
-  useEffect(() => {
-    if (lastAction) {
-      console.log('[Chat UI] 🛠️ Ação final recebida da API:', lastAction);
-      // Aqui faríamos o switch(lastAction.type) para chamar open_navigation, etc.
-    }
-  }, [lastAction]);
-
-  // Tratar texto da resposta da IA
-  useEffect(() => {
-    if (aiResponse && aiResponse.text) {
-      console.log('[Chat UI] 🤖 Texto da IA recebido:', aiResponse.text);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now().toString() + "_ai_" + aiResponse.timestamp,
+          id: Date.now().toString() + "_ai",
           isUser: false,
           type: "text",
-          message: aiResponse.text,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }
+          message: respostaPara(mensagemUsuario),
+          time: horaAtual(),
+        },
       ]);
-    }
-  }, [aiResponse]);
-
-  const handleSendAudio = (base64Data: string) => {
-    if (client) {
-      client.sendVoiceCommandBase64(base64Data);
-    }
+    }, 1200);
   };
 
-  const handleBargeIn = () => {
-    if (client) {
-      client.triggerBargeIn();
-    }
+  const handleSendText = (texto: string) => {
+    setMessages((prev) => [
+      ...prev,
+      { id: Date.now().toString(), isUser: true, type: "text", message: texto, time: horaAtual() },
+    ]);
+    responder(texto);
   };
 
   return (
@@ -107,27 +87,12 @@ export default function ChatIA() {
             />
           ))}
 
-          {/* Mostrar typing indicator quando a IA está pensando ou transcrevendo */}
-          {(status === 'transcribing' || status === 'thinking' || status === 'speaking') && (
-            <ChatBubble
-              isUser={false}
-              type="typing"
-            />
-          )}
-
-          {error && (
-            <ChatBubble
-              isUser={false}
-              type="text"
-              message={`Erro: ${error}`}
-            />
-          )}
+          {isTyping && <ChatBubble isUser={false} type="typing" />}
         </ScrollView>
 
-        <ChatInput 
-          status={status}
-          onSendAudio={handleSendAudio}
-          onBargeIn={handleBargeIn}
+        <ChatInput
+          status={isTyping ? 'thinking' : 'idle'}
+          onSendText={handleSendText}
         />
       </KeyboardAvoidingView>
     </View>

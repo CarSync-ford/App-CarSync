@@ -1,1 +1,1 @@
-export type ChatBubbleType = 'text' | 'audio' | 'typing';
+export type ChatBubbleType = 'text' | 'typing';
