@@ -9,6 +9,7 @@ export const notificacoesMock: Notification[] = [
       { text: ' direito está abaixo do esperado' },
     ],
     time: '09:40',
+    lida: false,
   },
   {
     id: 2,
@@ -18,5 +19,6 @@ export const notificacoesMock: Notification[] = [
       { text: ' para amanhã' },
     ],
     time: '09:40',
+    lida: false,
   },
 ];

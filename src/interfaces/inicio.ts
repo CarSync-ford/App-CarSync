@@ -11,10 +11,11 @@ export interface CardProps {
     height?: DimensionValue;
 }
 
-export interface Notification { 
-    id: number; 
-    segments: Segment[]; 
-    time: string; 
+export interface Notification {
+    id: number;
+    segments: Segment[];
+    time: string;
+    lida: boolean;
 }
 
 export interface OtherInfosProps {

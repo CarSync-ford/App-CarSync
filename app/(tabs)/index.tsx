@@ -1,22 +1,56 @@
 import { Colors } from "@/constants/Constants";
 import TirePressureIcon from "@/src/components/icons/TirePressureIcon";
 import { Card } from "@/src/components/inicio/Card";
-import CardCarro from "@/src/components/inicio/CardCarro";
+import CardCarro, { ConexaoCarro } from "@/src/components/inicio/CardCarro";
+import { ConexaoStatus } from "@/src/components/inicio/ConexaoStatus";
 import { FuelGauge } from "@/src/components/inicio/FuelGauge";
 import { OilLevel } from "@/src/components/inicio/OilLevel";
 import { OtherInfos } from "@/src/components/inicio/OtherInfos";
 import { SpeedChart } from "@/src/components/inicio/SpeedChart";
 import { TirePressure } from "@/src/components/inicio/TirePressure";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { veiculoMock } from '@/src/data/veiculoMock';
+import { useVeiculoSimulado } from '@/src/hooks/useVeiculoSimulado';
+import { useNotifications } from '@/src/contexts/NotificationContext';
+
+const COMBUSTIVEL_LIMITE_AVISO = 40;
 
 export default function Home() {
   const insets = useSafeAreaInsets();
   // altura do header = status bar + padding superior (10) + conteúdo (~44px) + padding inferior (10)
   const headerHeight = insets.top + 64;
   const dadosDoVeiculo = veiculoMock;
+  const { adicionarNotificacao } = useNotifications();
+
+  const [conexao, setConexao] = useState<ConexaoCarro>('idle');
+  const conectado = conexao === 'connected';
+
+  const { velocidade, combustivel } = useVeiculoSimulado(
+    dadosDoVeiculo.velocidade,
+    dadosDoVeiculo.combustivel,
+    conectado
+  );
+
+  const avisouCombustivelBaixo = useRef(false);
+
+  useEffect(() => {
+    if (conectado && combustivel <= COMBUSTIVEL_LIMITE_AVISO && !avisouCombustivelBaixo.current) {
+      avisouCombustivelBaixo.current = true;
+      adicionarNotificacao([
+        { text: 'O nível de ' },
+        { text: 'combustível', highlight: true },
+        { text: ' está abaixo da média' },
+      ]);
+    }
+  }, [conectado, combustivel]);
+
+  const handleConectar = () => {
+    setConexao('connecting');
+    setTimeout(() => setConexao('connected'), 2000);
+  };
 
   return (
 
@@ -25,7 +59,7 @@ export default function Home() {
         contentContainerStyle={[styles.contentContainer, { paddingTop: headerHeight + 16 }]}
         showsVerticalScrollIndicator={false}
       >
-        <CardCarro />
+        <CardCarro status={conexao} onConnect={handleConectar} />
 
         <View style={styles.cardContainer}>
           <Card
@@ -40,7 +74,11 @@ export default function Home() {
             width="47%"
             iconColor={Colors.azul_claro}
           >
-            <SpeedChart speed={dadosDoVeiculo.velocidade} maxSpeed={220} />
+            {conectado ? (
+              <SpeedChart speed={velocidade} maxSpeed={220} />
+            ) : (
+              <ConexaoStatus status={conexao === 'connecting' ? 'connecting' : 'idle'} />
+            )}
           </Card>
 
           <Card
@@ -55,12 +93,16 @@ export default function Home() {
             width="47%"
             iconColor={Colors.amarelo}
           >
-            <TirePressure
-              fl={dadosDoVeiculo.pressaoPneus.dianteiroEsquerdo}
-              fr={dadosDoVeiculo.pressaoPneus.dianteiroDireito}
-              rl={dadosDoVeiculo.pressaoPneus.traseiroEsquerdo}
-              rr={dadosDoVeiculo.pressaoPneus.traseiroDireito}
-            />
+            {conectado ? (
+              <TirePressure
+                fl={dadosDoVeiculo.pressaoPneus.dianteiroEsquerdo}
+                fr={dadosDoVeiculo.pressaoPneus.dianteiroDireito}
+                rl={dadosDoVeiculo.pressaoPneus.traseiroEsquerdo}
+                rr={dadosDoVeiculo.pressaoPneus.traseiroDireito}
+              />
+            ) : (
+              <ConexaoStatus status={conexao === 'connecting' ? 'connecting' : 'idle'} />
+            )}
           </Card>
         </View>
 
@@ -77,7 +119,11 @@ export default function Home() {
             width="100%"
             iconColor={Colors.vermelho}
           >
-            <FuelGauge level={dadosDoVeiculo.combustivel} />
+            {conectado ? (
+              <FuelGauge level={combustivel} />
+            ) : (
+              <ConexaoStatus status={conexao === 'connecting' ? 'connecting' : 'idle'} />
+            )}
           </Card>
         </View>
 
@@ -91,7 +137,11 @@ export default function Home() {
             iconColor={Colors.verde}
             height={300}
           >
-            <OilLevel level={dadosDoVeiculo.nivelOleo} />
+            {conectado ? (
+              <OilLevel level={dadosDoVeiculo.nivelOleo} />
+            ) : (
+              <ConexaoStatus status={conexao === 'connecting' ? 'connecting' : 'idle'} />
+            )}
           </Card>
 
           <Card
@@ -103,7 +153,11 @@ export default function Home() {
             iconColor={Colors.roxo}
             height={300}
           >
-            <OtherInfos infos={dadosDoVeiculo.outrasInfos} />
+            {conectado ? (
+              <OtherInfos infos={dadosDoVeiculo.outrasInfos} />
+            ) : (
+              <ConexaoStatus status={conexao === 'connecting' ? 'connecting' : 'idle'} />
+            )}
           </Card>
         </View>
 
