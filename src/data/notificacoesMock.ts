@@ -11,14 +11,4 @@ export const notificacoesMock: Notification[] = [
     time: '09:40',
     lida: false,
   },
-  {
-    id: 2,
-    segments: [
-      { text: 'Você tem um ' },
-      { text: 'agendamento', highlight: true },
-      { text: ' para amanhã' },
-    ],
-    time: '09:40',
-    lida: false,
-  },
 ];
