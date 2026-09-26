@@ -18,6 +18,7 @@ import {
 import { CalendarPicker } from "../CalendarPicker";
 import { LocationPicker } from "../LocationPicker";
 import { TimePicker } from "../TimePicker";
+import { SeletorModal } from "../SeletorModal";
 import { styles } from './style';
 import { Location, IAgendamento } from '@/src/types/agendamento';
 import { NovoAgendamentoModalProps } from '@/src/interfaces/agendamento';;
@@ -159,7 +160,7 @@ export function NovoAgendamentoModal({
   };
 
   const handleConfirm = () => {
-    onConfirm(formData);
+    onConfirm({ ...formData, local: selectedLocationObj?.endereco ?? null });
     setFormData({
       data: null,
       horario: null,
@@ -167,6 +168,7 @@ export function NovoAgendamentoModal({
       outroMotivo: "",
       local: null,
     });
+    setLocalPicker("0");
     setShowCalendar(false);
     setShowTimePicker(false);
     setShowMotivoPicker(false);
@@ -205,29 +207,6 @@ export function NovoAgendamentoModal({
               contentContainerStyle={styles.scrollContent}
               keyboardShouldPersistTaps="handled"
             >
-              {/* Time Picker Inline */}
-              {showTimePicker && (
-                <TimePicker
-                  selectedTime={formData.horario}
-                  onSelectTime={(time) => {
-                    setFormData({ ...formData, horario: time });
-                    setShowTimePicker(false);
-                  }}
-                  availableTimes={HORARIOS_DISPONIVEIS}
-                />
-              )}
-
-              {/* Calendar Picker Inline */}
-              {showCalendar && (
-                <CalendarPicker
-                  selectedDate={formData.data}
-                  onSelectDate={(date) => {
-                    setFormData({ ...formData, data: date });
-                    setShowCalendar(false);
-                  }}
-                />
-              )}
-
               {/* Data e Horário */}
               <View style={styles.rowFields}>
                 <View style={styles.fieldHalf}>
@@ -297,37 +276,6 @@ export function NovoAgendamentoModal({
                 </TouchableOpacity>
               </View>
 
-              {/* Motivo Picker Dropdown */}
-              {showMotivoPicker && (
-                <View style={styles.dropdownContainer}>
-                  {MOTIVOS.map((motivo) => (
-                    <TouchableOpacity
-                      key={motivo}
-                      style={[
-                        styles.dropdownItem,
-                        formData.motivo === motivo &&
-                          styles.dropdownItemSelected,
-                      ]}
-                      onPress={() => {
-                        setFormData({ ...formData, motivo });
-                        setShowMotivoPicker(false);
-                      }}
-                      activeOpacity={0.7}
-                    >
-                      <Text
-                        style={[
-                          styles.dropdownText,
-                          formData.motivo === motivo &&
-                            styles.dropdownTextSelected,
-                        ]}
-                      >
-                        {motivo}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              )}
-
               {/* Outro Motivo */}
               <View
                 style={[
@@ -376,20 +324,6 @@ export function NovoAgendamentoModal({
                 </TouchableOpacity>
               </View>
 
-              {/* Location Picker Inline */}
-              {showLocationPicker && (
-                <LocationPicker
-                  selectedLocation={localPicker}
-                  onSelectLocation={(locationId) => {
-                    setFormData({ ...formData, local: LOCAIS_MOCK[parseInt(locationId)].endereco });
-                    setLocalPicker(locationId);
-                    setShowLocationPicker(false);
-                    console.log(localPicker);
-                    
-                  }}
-                  locations={LOCAIS_MOCK}
-                />
-              )}
             </ScrollView>
 
             {/* Botões */}
@@ -413,6 +347,81 @@ export function NovoAgendamentoModal({
           </Animated.View>
         </KeyboardAvoidingView>
       </Animated.View>
+
+      <SeletorModal
+        visible={showCalendar}
+        onClose={() => setShowCalendar(false)}
+        title="Data do agendamento"
+      >
+        <CalendarPicker
+          selectedDate={formData.data}
+          onSelectDate={(date) => {
+            setFormData({ ...formData, data: date });
+            setShowCalendar(false);
+          }}
+        />
+      </SeletorModal>
+
+      <SeletorModal
+        visible={showTimePicker}
+        onClose={() => setShowTimePicker(false)}
+        title="Horário"
+      >
+        <TimePicker
+          selectedTime={formData.horario}
+          onSelectTime={(time) => {
+            setFormData({ ...formData, horario: time });
+            setShowTimePicker(false);
+          }}
+          availableTimes={HORARIOS_DISPONIVEIS}
+        />
+      </SeletorModal>
+
+      <SeletorModal
+        visible={showMotivoPicker}
+        onClose={() => setShowMotivoPicker(false)}
+        title="Motivo"
+      >
+        {MOTIVOS.map((motivo) => (
+          <TouchableOpacity
+            key={motivo}
+            style={[
+              styles.dropdownItem,
+              formData.motivo === motivo && styles.dropdownItemSelected,
+            ]}
+            onPress={() => {
+              setFormData({ ...formData, motivo });
+              setShowMotivoPicker(false);
+            }}
+            activeOpacity={0.7}
+          >
+            <Text
+              style={[
+                styles.dropdownText,
+                formData.motivo === motivo && styles.dropdownTextSelected,
+              ]}
+            >
+              {motivo}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </SeletorModal>
+
+      <SeletorModal
+        visible={showLocationPicker}
+        onClose={() => setShowLocationPicker(false)}
+        title="Local"
+      >
+        <LocationPicker
+          selectedLocation={localPicker}
+          onSelectLocation={(locationId) => {
+            setFormData({ ...formData, local: LOCAIS_MOCK[parseInt(locationId)].endereco });
+            setLocalPicker(locationId);
+            setShowLocationPicker(false);
+          }}
+          locations={LOCAIS_MOCK}
+        />
+      </SeletorModal>
     </Modal>
   );
 }
