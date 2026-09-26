@@ -3,6 +3,7 @@ import { LayoutAnimation } from 'react-native';
 
 const VELOCIDADE_MIN = 12;
 const VELOCIDADE_MAX = 30;
+const COMBUSTIVEL_CRITICO = 10;
 
 export function useVeiculoSimulado(velocidadeInicial: number, combustivelInicial: number, ativo: boolean) {
   const [velocidade, setVelocidade] = useState(velocidadeInicial);
@@ -13,13 +14,14 @@ export function useVeiculoSimulado(velocidadeInicial: number, combustivelInicial
 
     const intervalo = setInterval(() => {
       setVelocidade((atual) => {
+        if (combustivel <= COMBUSTIVEL_CRITICO) return 0;
         const passo = Math.round(Math.random() * 2) - 1;
         return Math.min(VELOCIDADE_MAX, Math.max(VELOCIDADE_MIN, atual + passo));
       });
     }, 1000);
 
     return () => clearInterval(intervalo);
-  }, [ativo]);
+  }, [ativo, combustivel]);
 
   useEffect(() => {
     if (!ativo) return;
