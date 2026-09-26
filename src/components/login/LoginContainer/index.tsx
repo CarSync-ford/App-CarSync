@@ -142,7 +142,16 @@ export default function LoginContainer() {
             />
             {errors.senha && <Text style={inlineStyles.error}>{errors.senha}</Text>}
 
-            <TouchableOpacity style={styles.forgotPassword}>
+            <TouchableOpacity
+              style={styles.forgotPassword}
+              onPress={() =>
+                Toast.show({
+                  type: 'info',
+                  text1: 'Ainda não foi desenvolvido',
+                  position: 'top',
+                })
+              }
+            >
               <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
             </TouchableOpacity>
 
