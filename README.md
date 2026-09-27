@@ -45,6 +45,8 @@ Escaneie o QR code abaixo com a câmera do celular para baixar e instalar o APK 
 
 <img src="./assets/images/apk-qrcode.png" alt="QR code para instalar o APK" width="220" />
 
+https://expo.dev/accounts/alecssya/projects/App-CarSync/builds/ce208e6f-8d3b-40cd-858f-209c5bb295ac
+
 > Esse QR code aponta para uma build específica. Ao gerar uma nova (veja abaixo), substitua a imagem em `assets/images/apk-qrcode.png` pelo QR code da build atual.
 
 ### Gerar o APK
