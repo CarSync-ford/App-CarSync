@@ -31,7 +31,6 @@ O coração do monitoramento do veículo. Projetado para simular a leitura de da
 ### 🤖 Chat IA: "Fordinho"
 Assistente proativo integrado ao sistema para suporte técnico e interação intuitiva.
 - **Interface Humanizada**: Indicadores de digitação dinâmicos e balões de chat exclusivos.
-- **Suporte a Áudio**: Design preparado para interações por voz e áudio, ideal para uso durante a condução.
 - **Conhecimento Técnico**: Respostas baseadas em diagnósticos reais e manuais do veículo.
 
 ### 📅 Sistema de Agendamento Inteligente
@@ -39,9 +38,42 @@ Conecta o motorista diretamente à rede de concessionárias Ford.
 - **Calendário Customizado**: Experiência fluida para seleção de slots de manutenção sem libs externas.
 - **Localização**: Identificação automática das unidades mais próximas para agilidade.
 
-### 🔐 Segurança e Autenticação
-- **MFA (Multi-Factor Authentication)**: Proteção extra via código OTP de 6 dígitos customizado.
-- **Router Guard**: Proteção centralizada de rotas via Context API para garantir a privacidade dos dados.
+
+### Instalação rápida
+
+Escaneie o QR code abaixo com a câmera do celular para baixar e instalar o APK da última build gerada:
+
+<img src="./docs/apk-qrcode.png" alt="QR code para instalar o APK" width="220" />
+
+> Esse QR code aponta para uma build específica. Ao gerar uma nova (veja abaixo), substitua a imagem em `docs/apk-qrcode.png` pelo QR code da build atual.
+
+### Gerar o APK
+
+Pré-requisitos: Node.js, uma conta Expo com acesso ao projeto e o EAS CLI instalado.
+
+```bash
+npm install -g eas-cli
+eas login
+```
+
+Dentro de `App-CarSync/`:
+
+```bash
+eas build --platform android --profile preview
+```
+
+> A URL da API (`EXPO_PUBLIC_API`) já vem definida no `eas.json` para os builds na nuvem — não depende do `.env` local (que só vale para rodar via `npm start`, veja o [COMO_COMECAR.md](./COMO_COMECAR.md)).
+
+O build roda na nuvem e, ao final, gera um link de download do `.apk` — o mesmo link também fica disponível em [expo.dev](https://expo.dev), na página do projeto.
+
+### Instalar no celular
+
+1. No Android, habilite **"Instalar apps de fontes desconhecidas"** (normalmente pedido automaticamente na primeira tentativa de instalação).
+2. Abra o link do build direto no navegador do celular e toque no `.apk` baixado para instalar.
+   - Alternativa via cabo/ADB: `adb install caminho/para/o/arquivo.apk`.
+3. Abra o app normalmente após a instalação.
+
+> ⚠️ O app depende da API em `https://api.carsync.me` para login e cadastro — é necessário estar conectado à internet.
 
 ---
 
