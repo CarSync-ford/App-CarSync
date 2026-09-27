@@ -108,3 +108,12 @@ Como este é um MVP, os próximos passos visam a integração profunda com o har
 1. **Integração SYNC 4/5**: Renderização nativa na tela multimídia via Android Auto/Apple CarPlay.
 2. **Telemetria Proativa**: Notificações push baseadas em desgaste real de peças via telemetria avançada.
 3. **Voice Commands**: Controle total de periféricos (ar-condicionado, janelas) via comando de voz integrado à IA.
+
+<img width="417" height="852" alt="image" src="https://github.com/user-attachments/assets/6b94f53b-2ae7-4a3f-b94e-79d5888e912a" />
+<img width="420" height="857" alt="image" src="https://github.com/user-attachments/assets/9439412a-9d3d-4f51-9957-4f50b6aa2e14" />
+<img width="417" height="853" alt="image" src="https://github.com/user-attachments/assets/b46a0cf9-6e0c-40cf-ac9a-b990386e008d" />
+<img width="420" height="851" alt="image" src="https://github.com/user-attachments/assets/98f77e62-920a-4da0-adc3-3d7611942a47" />
+<img width="423" height="851" alt="image" src="https://github.com/user-attachments/assets/80423a1b-a256-450d-a134-01b0daf1f907" />
+
+
+
