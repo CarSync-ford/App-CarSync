@@ -43,9 +43,9 @@ Conecta o motorista diretamente à rede de concessionárias Ford.
 
 Escaneie o QR code abaixo com a câmera do celular para baixar e instalar o APK da última build gerada:
 
-<img src="./assets/apk-qrcode.png" alt="QR code para instalar o APK" width="220" />
+<img src="./assets/images/apk-qrcode.png" alt="QR code para instalar o APK" width="220" />
 
-> Esse QR code aponta para uma build específica. Ao gerar uma nova (veja abaixo), substitua a imagem em `docs/apk-qrcode.png` pelo QR code da build atual.
+> Esse QR code aponta para uma build específica. Ao gerar uma nova (veja abaixo), substitua a imagem em `assets/images/apk-qrcode.png` pelo QR code da build atual.
 
 ### Gerar o APK
 
