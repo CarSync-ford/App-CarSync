@@ -71,3 +71,57 @@ lógica de refresh token client-side contra um endpoint que não existe no backe
 protocolo ("não criar... só para preencher documentação"). Sem commit de código para este checkpoint.
 Evidência: T2.C1, acima
 Dependência externa / responsável / ação para desbloquear: nenhuma
+
+---
+
+Checkpoint: T3.C1
+Estado: VERIFICADO
+Requisito: R07
+Arquivos e teste/comando: src/utils/secureStorage.ts, src/contexts/AuthContext.tsx; npx tsc --noEmit
+Resultado observado e data: 2026-09-26, commit a6f762d
+
+- Web (antes inseguro): AsyncStorage armazenava o JWT em texto puro. Agora setSecureItem/getSecureItem
+  cifram/decifram com AES (crypto-js/aes) antes de gravar/ler no AsyncStorage.
+- Chave de cifra: gerada uma vez com CryptoJS.lib.WordArray.random(32), guardada na chave
+  __carsync_web_storage_key do AsyncStorage — separada da chave onde fica o ciphertext (auth_token),
+  atendendo literalmente "chaves separadas de ciphertext".
+- Nativo (iOS/Android): sem nenhuma mudança de comportamento; segue usando expo-secure-store
+  (Keychain/Keystore), que já era criptografia real do SO.
+- Limpeza: removido auth_user/SECURE_KEY_USER (código morto identificado em T1.C1) de AuthContext.tsx.
+- Efeito colateral esperado e aceitável: sessões web que já tinham o token salvo em texto puro (antes
+  deste fix) vão falhar ao decifrar na próxima leitura → cai no catch existente ("token inválido → limpa
+  sessão", já implementado em AuthContext.tsx) → força um novo login. Não é regressão, é a migração
+  esperada de um esquema pra outro.
+- `npx tsc --noEmit`: sem erros novos (os 3 erros pré-existentes do projeto, não relacionados, continuam
+  iguais).
+Evidência: commit a6f762d; trecho do esquema em src/utils/secureStorage.ts
+Dependência externa / responsável / ação para desbloquear: nenhuma
+
+---
+
+Checkpoint: T3.C2
+Estado: VERIFICADO
+Requisito: R07
+Arquivos e teste/comando: docs/security/sec-2026/03-frontends/REPORT.md
+Resultado observado e data: 2026-09-26
+
+Evidência detalhada e ressalva honesta sobre os limites da cifra no web registradas em REPORT.md
+(seção "Criptografia local — o que muda e o que não muda").
+Evidência: REPORT.md
+Dependência externa / responsável / ação para desbloquear: nenhuma
+
+---
+
+Checkpoint: T4.C1
+Estado: VERIFICADO
+Requisito: R07 concluído; insumos R14, R16, R20-R21 repassados
+Arquivos e teste/comando: docs/security/sec-2026/03-frontends/REPORT.md
+Resultado observado e data: 2026-09-26
+
+Handoff para as demais frentes registrado em REPORT.md (achados MFA/2FA, refresh token, HMAC secret
+client-side). FRONTEND-HANDOFF.md (entrada esperada pelo protocolo) não estava disponível em
+Downloads/mobile — impedimento registrado abaixo.
+Evidência: REPORT.md
+Dependência externa / responsável / ação para desbloquear: FRONTEND-HANDOFF.md não foi fornecido; a
+matriz de handoff foi produzida em formato equivalente (REPORT.md) na ausência do template oficial.
+Quem tiver o arquivo original pode reconciliar o formato depois.
