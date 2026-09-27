@@ -24,7 +24,7 @@ Documento de entrega do projeto **CarSync** para o Challenge Ford.
 | 5 | Chat IA | `/(tabs)/chat` | |
 | 6 | Setup 2FA | `/two-factor-setup` | |
 | 7 | QR Code 2FA | `/two-factor-qrcode` | gera segredo TOTP real e QR escaneável por Google Authenticator |
-| 8 | MFA | `/mfa` | verifica o código real (RFC 6238); não integrado ao login pois o backend não tem endpoint de MFA |
+| 8 | MFA | `/mfa` | verifica o código real (RFC 6238); não integrado a uma sessão de backend |
 | 9 | Sucesso 2FA | `/two-factor-success` | |
 
 **Total: 9 telas navegáveis** (requisito mínimo: 5 ✅)
