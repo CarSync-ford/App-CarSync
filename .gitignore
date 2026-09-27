@@ -45,5 +45,6 @@ app-example
 
 # agents
 .agents
-docs
+docs/*
+!docs/security/
 MEMORY.md
