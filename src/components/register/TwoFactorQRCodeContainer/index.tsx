@@ -81,7 +81,7 @@ export default function TwoFactorQRCodeContainer() {
 
         <TouchableOpacity
           style={styles.continueButton}
-          onPress={() => router.push('/two-factor-success')}
+          onPress={() => router.push('/mfa')}
         >
           <Text style={styles.continueButtonText}>Continuar</Text>
         </TouchableOpacity>

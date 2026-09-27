@@ -14,6 +14,7 @@ import { ILoginPayload, ILoginResponse } from '@/src/types/login';
 import { parseApiError } from '@/src/utils/errorHandler';
 
 const SECURE_KEY_TOKEN = 'auth_token';
+const SECURE_KEY_REFRESH_TOKEN = 'auth_refresh_token';
 
 // ─── Registro ─────────────────────────────────────────────────────────────────
 
@@ -46,8 +47,9 @@ export async function loginUser(payload: ILoginPayload): Promise<ILoginResponse>
     throw new Error(parseApiError(data, 'E-mail ou senha incorretos.'));
   }
 
-  // Persiste o token de forma criptografada
+  // Persiste o token e o refresh token de forma criptografada
   await setSecureItem(SECURE_KEY_TOKEN, data.token);
+  await setSecureItem(SECURE_KEY_REFRESH_TOKEN, data.refreshToken);
 
   return data;
 }

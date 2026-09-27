@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Constants';
 import OtpInput from '@/src/components/mfa/OtpInput';
 import { useAuth } from '@/src/contexts/AuthContext';
@@ -14,6 +15,7 @@ export default function MfaContainer() {
   const [code, setCode] = useState('');
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const { signIn } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
@@ -48,6 +50,7 @@ export default function MfaContainer() {
     }
 
     await signIn('usuario_logado', '***');
+    router.push('/two-factor-success');
   };
 
   return (

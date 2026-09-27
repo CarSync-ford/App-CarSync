@@ -6,11 +6,12 @@
  * - Valida que a baseURL usa HTTPS (aviso em desenvolvimento).
  * - Lê o JWT do SecureStore e envia no header Authorization.
  * - Retry automático com exponential backoff para respostas 429 (Too Many Requests).
- * - Detecta respostas 401 / 403 / 423 e dispara logout forçado via authEvents.
+ * - Em 401, tenta renovar o token via POST /api/v1/auth/refresh antes de desistir.
+ * - Detecta respostas 401 (pós-refresh) / 403 / 423 e dispara logout forçado via authEvents.
  * - Lança erros com mensagem amigável extraída do DTO padrão da API.
  */
 
-import { getSecureItem } from '@/src/utils/secureStorage';
+import { getSecureItem, setSecureItem } from '@/src/utils/secureStorage';
 import { authEvents } from '@/src/utils/authEvents';
 import { parseApiError } from '@/src/utils/errorHandler';
 import HmacSHA256 from 'crypto-js/hmac-sha256';
@@ -39,6 +40,9 @@ const BASE_DELAY_MS = 500; // 500ms → 1000ms → 2000ms
 /** HTTP status codes que disparam logout forçado */
 const FORCE_LOGOUT_STATUSES = new Set([401, 403, 423]);
 
+const SECURE_KEY_TOKEN = 'auth_token';
+const SECURE_KEY_REFRESH_TOKEN = 'auth_refresh_token';
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /** Aguarda `ms` milissegundos */
@@ -53,6 +57,62 @@ function backoffDelay(attempt: number): number {
   return Math.min(exp + jitter, 8000);                   // teto em 8s
 }
 
+/**
+ * Tenta renovar o token via POST /api/v1/auth/refresh usando o refresh token salvo.
+ * Usa fetch direto (não apiFetch) para não reentrar no fluxo de retry/logout.
+ * Retorna o novo access token em caso de sucesso, ou null se não há refresh token
+ * salvo, ou a renovação falhar.
+ */
+async function tryRefreshToken(): Promise<string | null> {
+  const refreshToken = await getSecureItem(SECURE_KEY_REFRESH_TOKEN);
+  if (!refreshToken) return null;
+
+  const path = '/api/v1/auth/refresh';
+  const body = JSON.stringify({ refreshToken });
+  const signature = HmacSHA256(body, HMAC_SECRET).toString(encBase64);
+
+  try {
+    const response = await fetch(`${BASE_URL}${path}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-HMAC-Signature': signature,
+      },
+      body,
+    });
+    if (!response.ok) return null;
+
+    const data = await response.json().catch(() => null);
+    if (!data?.token) return null;
+
+    await setSecureItem(SECURE_KEY_TOKEN, data.token);
+    if (data.refreshToken) {
+      await setSecureItem(SECURE_KEY_REFRESH_TOKEN, data.refreshToken);
+    }
+    return data.token as string;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Compartilha uma única renovação em andamento entre chamadas concorrentes.
+ * Sem isso, duas requisições que tomam 401 ao mesmo tempo disparariam duas
+ * chamadas a /auth/refresh com o mesmo refresh token — se o backend rotaciona
+ * o refresh token a cada uso, a segunda chamada poderia falhar por já estar
+ * invalidado, derrubando a sessão à toa mesmo com a primeira tendo funcionado.
+ */
+let inFlightRefresh: Promise<string | null> | null = null;
+
+function refreshTokenOnce(): Promise<string | null> {
+  if (!inFlightRefresh) {
+    inFlightRefresh = tryRefreshToken().finally(() => {
+      inFlightRefresh = null;
+    });
+  }
+  return inFlightRefresh;
+}
+
 // ─── apiFetch ─────────────────────────────────────────────────────────────────
 
 /**
@@ -64,10 +124,9 @@ function backoffDelay(attempt: number): number {
 export async function apiFetch(path: string, options?: RequestInit): Promise<Response> {
   const url = `${BASE_URL}${path}`;
 
-  // Lê o token do armazenamento seguro
-  const token = await getSecureItem('auth_token');
-
-  const buildHeaders = (): HeadersInit => {
+  const buildHeaders = async (): Promise<HeadersInit> => {
+    // Lê o token do armazenamento seguro a cada tentativa (pode ter sido renovado)
+    const token = await getSecureItem(SECURE_KEY_TOKEN);
     let payloadToSign = '';
 
     const method = options?.method?.toUpperCase() || 'GET';
@@ -94,11 +153,12 @@ export async function apiFetch(path: string, options?: RequestInit): Promise<Res
   };
 
   let attempt = 0;
+  let refreshAttempted = false;
 
   while (true) {
     const response = await fetch(url, {
       ...options,
-      headers: buildHeaders(),
+      headers: await buildHeaders(),
     });
 
     // ── 429 Too Many Requests: retry com backoff ──────────────────────────────
@@ -121,7 +181,18 @@ export async function apiFetch(path: string, options?: RequestInit): Promise<Res
       continue;
     }
 
-    // ── 401 / 403 / 423: logout forçado ──────────────────────────────────────
+    // ── 401: tenta renovar o token uma vez antes de desistir ──────────────────
+    if (response.status === 401 && !refreshAttempted) {
+      refreshAttempted = true;
+      const newToken = await refreshTokenOnce();
+      if (newToken) {
+        if (__DEV__) console.warn('[api] 401 recebido, token renovado via refresh. Repetindo requisição.');
+        continue;
+      }
+      if (__DEV__) console.warn('[api] 401 recebido, refresh indisponível ou falhou.');
+    }
+
+    // ── 401 (pós-refresh) / 403 / 423: logout forçado ─────────────────────────
     if (FORCE_LOGOUT_STATUSES.has(response.status)) {
       if (__DEV__) {
         console.warn(`[api] Status ${response.status} recebido → disparando logout forçado.`);

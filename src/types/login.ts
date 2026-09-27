@@ -10,4 +10,5 @@ export type ILoginPayload = {
 
 export type ILoginResponse = {
   token: string;
+  refreshToken: string;
 };
