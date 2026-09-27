@@ -17,7 +17,6 @@ import { authEvents } from '@/src/utils/authEvents';
 // ─── Chaves do SecureStore ────────────────────────────────────────────────────
 
 const SECURE_KEY_TOKEN = 'auth_token';
-const SECURE_KEY_USER  = 'auth_user';
 
 // ─── Tipo do contexto ─────────────────────────────────────────────────────────
 
@@ -52,7 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           } catch {
             // Token inválido / expirado → limpa a sessão
             await deleteSecureItem(SECURE_KEY_TOKEN);
-            await deleteSecureItem(SECURE_KEY_USER);
             setUserTokenState(null);
           }
         }
@@ -114,7 +112,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   /** Remove todos os dados de sessão e limpa o SecureStore. */
   const signOut = async () => {
     await deleteSecureItem(SECURE_KEY_TOKEN);
-    await deleteSecureItem(SECURE_KEY_USER);
     setUserTokenState(null);
   };
 
