@@ -22,11 +22,8 @@ Documento de entrega do projeto **CarSync** para o Challenge Ford.
 | 3 | Início (Dashboard) | `/(tabs)/` |
 | 4 | Agendamento | `/(tabs)/agendamento` |
 | 5 | Chat IA | `/(tabs)/chat` |
-| 6 | MFA / 2FA | `/mfa` | 2FA desabilitado temporariamente
-| 7 | Setup 2FA | `/two-factor-setup` | 2FA desabilitado temporariamente
-| 8 | Sucesso 2FA | `/two-factor-success` | 2FA desabilitado temporariamente
 
-**Total: 8 telas navegáveis** (requisito mínimo: 5 ✅)
+**Total: 5 telas navegáveis** (requisito mínimo: 5 ✅)
 
 ---
 
@@ -38,7 +35,6 @@ Mais de 20 componentes organizados por módulo em `src/components/`:
 - **Início:** `Header`, `Card`, `CardCarro`, `FuelGauge`, `OilLevel`, `SpeedChart`, `TirePressure`, `OtherInfos`, `NotificationPanel`
 - **Agendamento:** `AgendamentoCard`, `AgendamentosList`, `HistoricoList`, `FordinhoBanner`, `NovoAgendamentoModal`, `CalendarPicker`
 - **Chat:** `ChatBubble`, `ChatHeader`, `ChatInput`, `TypingIndicator`
-- **MFA:** `MfaContainer`, `OtpInput`
 
 ---
 

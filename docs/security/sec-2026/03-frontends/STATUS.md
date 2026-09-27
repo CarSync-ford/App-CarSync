@@ -125,3 +125,25 @@ Evidência: REPORT.md
 Dependência externa / responsável / ação para desbloquear: FRONTEND-HANDOFF.md não foi fornecido; a
 matriz de handoff foi produzida em formato equivalente (REPORT.md) na ausência do template oficial.
 Quem tiver o arquivo original pode reconciliar o formato depois.
+
+---
+
+Checkpoint: T4.C2 (fora da matriz original — pedido direto do mantenedor)
+Estado: VERIFICADO
+Requisito: R20 (insumo — honestidade de conformidade)
+Arquivos e teste/comando: app/mfa.tsx, app/two-factor-*.tsx, src/components/mfa/**,
+src/components/register/TwoFactor*Container/**, app/_layout.tsx, src/contexts/AuthContext.tsx,
+ENTREGA.md, COMO_COMECAR.md; npx tsc --noEmit
+Resultado observado e data: 2026-09-26
+
+Nota de escopo: a lista de escrita original desta frente (declarada em 03-frontends.md) cobria
+src/utils/secureStorage.ts e src/contexts/AuthContext.tsx. A remoção completa do MFA/2FA (rotas,
+componentes, referências em app/_layout.tsx, e a atualização de ENTREGA.md/COMO_COMECAR.md) foi pedido
+direto do mantenedor nesta sessão, em resposta ao achado de T1.C1/T4.C1 (MFA era UI desconectada, sem
+segredo real). Registrado aqui como autorização explícita do dono do repositório para ampliar o escopo,
+conforme o protocolo prevê ("o mantenedor atribui um único dono antes de liberar a mudança").
+Resultado: telas, componentes e o signIn() morto removidos; app/_layout.tsx sem as rotas mfa/two-factor-*;
+ENTREGA.md com 5 telas navegáveis (era 8) e sem o bloco "MFA:" nos componentes; COMO_COMECAR.md sem
+mfa.tsx na árvore de pastas. npx tsc --noEmit sem erros novos.
+Evidência: este commit; REPORT.md atualizado
+Dependência externa / responsável / ação para desbloquear: nenhuma

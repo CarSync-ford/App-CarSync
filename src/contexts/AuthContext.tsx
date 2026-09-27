@@ -24,7 +24,6 @@ interface AuthContextType {
   userToken: string | null;
   username: string | null;
   isLoading: boolean;
-  signIn: (usuario: string, senha: string) => Promise<void>;
   signOut: () => Promise<void>;
   setUserToken: (token: string | null) => void;
 }
@@ -99,16 +98,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUserTokenState(token);
   };
 
-  /**
-   * signIn — placeholder mantido por compatibilidade.
-   * O fluxo real de login é feito por loginUser() no authService,
-   * que salva o token e chama setUserToken().
-   */
-  const signIn = async (_usuario: string, _senha: string) => {
-    // O loginUser() do authService já persiste o token.
-    // Este método pode ser removido futuramente.
-  };
-
   /** Remove todos os dados de sessão e limpa o SecureStore. */
   const signOut = async () => {
     await deleteSecureItem(SECURE_KEY_TOKEN);
@@ -117,7 +106,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ userToken, username, isLoading, signIn, signOut, setUserToken }}
+      value={{ userToken, username, isLoading, signOut, setUserToken }}
     >
       {children}
     </AuthContext.Provider>

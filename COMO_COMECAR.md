@@ -64,8 +64,7 @@ App-CarSync/
 │   │   ├── agendamento.tsx # Tela Agendamento
 │   │   └── chat.tsx        # Chat IA
 │   ├── login.tsx           # Tela de Login
-│   ├── register.tsx        # Tela de Cadastro
-│   └── mfa.tsx             # Autenticação 2FA
+│   └── register.tsx        # Tela de Cadastro
 ├── src/
 │   ├── components/         # Componentes reutilizáveis
 │   ├── contexts/           # Contextos React (AuthContext)

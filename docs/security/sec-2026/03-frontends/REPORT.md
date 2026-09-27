@@ -27,12 +27,14 @@ operacional, fora do alcance do próprio processo do app.
 
 ## Achados repassados a outras frentes
 
-- **MFA/2FA é UI desconectada (insumo R20 — Mobile Top 10, e achado de honestidade de conformidade)**:
-  `MfaContainer`, `TwoFactorQRCodeContainer`, `TwoFactorSetupContainer`, `TwoFactorSuccessContainer`
-  existem como telas, mas o secret exibido é um placeholder fixo, o QR é um espaço vazio reservado, e
-  `signIn()` (chamado por essas telas) é um no-op em `AuthContext.tsx`. Nenhuma rota do app navega para
-  `/mfa`. **O README do projeto lista MFA como funcionalidade entregue — não está, no código atual.**
-  Repasso para 06-compliance (R20, honestidade do checklist) e para quem decidir sobre o texto do README.
+- **MFA/2FA removido do projeto (insumo R20 — Mobile Top 10, achado de honestidade de conformidade)**:
+  era UI desconectada — secret placeholder fixo, QR vazio, `signIn()` no-op, nenhuma rota navegava para
+  `/mfa`. A pedido do mantenedor, as telas (`app/mfa.tsx`, `two-factor-*.tsx`), os componentes
+  (`MfaContainer`, `OtpInput`, `TwoFactorQRCodeContainer`, `TwoFactorSetupContainer`,
+  `TwoFactorSuccessContainer`) e o `signIn()` morto em `AuthContext.tsx` foram removidos do código, em
+  vez de mantidos como funcionalidade incompleta. `ENTREGA.md`/`COMO_COMECAR.md` atualizados (5 telas
+  navegáveis; nenhuma alegação de MFA). Repasso para 06-compliance como conformidade honesta: o projeto
+  não declara mais um controle que não existia de fato.
 - **Ausência de refresh token (insumo/dependência de 02-api)**: contrato real de login é
   `{email, senha} → {token}`, sem refresh token em lugar nenhum. Não é bug do cliente — é o design atual
   da API. Se R10 exigir rotação de token, é mudança de contrato do lado do backend.
