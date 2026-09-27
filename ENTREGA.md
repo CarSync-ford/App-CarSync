@@ -15,15 +15,19 @@ Documento de entrega do projeto **CarSync** para o Challenge Ford.
 
 ### ✅ Mínimo de 5 telas navegáveis
 
-| # | Tela | Rota |
-|---|------|------|
-| 1 | Login | `/login` |
-| 2 | Cadastro | `/register` |
-| 3 | Início (Dashboard) | `/(tabs)/` |
-| 4 | Agendamento | `/(tabs)/agendamento` |
-| 5 | Chat IA | `/(tabs)/chat` |
+| # | Tela | Rota | Observação |
+|---|------|------|------------|
+| 1 | Login | `/login` | |
+| 2 | Cadastro | `/register` | |
+| 3 | Início (Dashboard) | `/(tabs)/` | |
+| 4 | Agendamento | `/(tabs)/agendamento` | |
+| 5 | Chat IA | `/(tabs)/chat` | |
+| 6 | Setup 2FA | `/two-factor-setup` | |
+| 7 | QR Code 2FA | `/two-factor-qrcode` | gera segredo TOTP real e QR escaneável por Google Authenticator |
+| 8 | MFA | `/mfa` | verifica o código real (RFC 6238); não integrado ao login pois o backend não tem endpoint de MFA |
+| 9 | Sucesso 2FA | `/two-factor-success` | |
 
-**Total: 5 telas navegáveis** (requisito mínimo: 5 ✅)
+**Total: 9 telas navegáveis** (requisito mínimo: 5 ✅)
 
 ---
 
@@ -35,6 +39,7 @@ Mais de 20 componentes organizados por módulo em `src/components/`:
 - **Início:** `Header`, `Card`, `CardCarro`, `FuelGauge`, `OilLevel`, `SpeedChart`, `TirePressure`, `OtherInfos`, `NotificationPanel`
 - **Agendamento:** `AgendamentoCard`, `AgendamentosList`, `HistoricoList`, `FordinhoBanner`, `NovoAgendamentoModal`, `CalendarPicker`
 - **Chat:** `ChatBubble`, `ChatHeader`, `ChatInput`, `TypingIndicator`
+- **MFA:** `MfaContainer`, `OtpInput`, `TwoFactorSetupContainer`, `TwoFactorQRCodeContainer`, `TwoFactorSuccessContainer`
 
 ---
 

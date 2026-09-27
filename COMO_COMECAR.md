@@ -64,7 +64,11 @@ App-CarSync/
 │   │   ├── agendamento.tsx # Tela Agendamento
 │   │   └── chat.tsx        # Chat IA
 │   ├── login.tsx           # Tela de Login
-│   └── register.tsx        # Tela de Cadastro
+│   ├── register.tsx        # Tela de Cadastro
+│   ├── mfa.tsx             # Verificação TOTP (RFC 6238)
+│   ├── two-factor-setup.tsx    # Intro do setup de 2FA
+│   ├── two-factor-qrcode.tsx   # QR code + chave do autenticador
+│   └── two-factor-success.tsx  # Confirmação do setup
 ├── src/
 │   ├── components/         # Componentes reutilizáveis
 │   ├── contexts/           # Contextos React (AuthContext)

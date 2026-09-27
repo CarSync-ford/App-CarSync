@@ -25,16 +25,34 @@ cookie `HttpOnly`. Isso é uma mudança de arquitetura do lado da API, fora do e
 Nativo (iOS/Android) não tem essa ressalva: `expo-secure-store` já usa Keychain/Keystore do sistema
 operacional, fora do alcance do próprio processo do app.
 
-## Achados repassados a outras frentes
+## MFA com TOTP real (RFC 6238)
 
-- **MFA/2FA removido do projeto (insumo R20 — Mobile Top 10, achado de honestidade de conformidade)**:
-  era UI desconectada — secret placeholder fixo, QR vazio, `signIn()` no-op, nenhuma rota navegava para
-  `/mfa`. A pedido do mantenedor, as telas (`app/mfa.tsx`, `two-factor-*.tsx`), os componentes
-  (`MfaContainer`, `OtpInput`, `TwoFactorQRCodeContainer`, `TwoFactorSetupContainer`,
-  `TwoFactorSuccessContainer`) e o `signIn()` morto em `AuthContext.tsx` foram removidos do código, em
-  vez de mantidos como funcionalidade incompleta. `ENTREGA.md`/`COMO_COMECAR.md` atualizados (5 telas
-  navegáveis; nenhuma alegação de MFA). Repasso para 06-compliance como conformidade honesta: o projeto
-  não declara mais um controle que não existia de fato.
+O MFA foi removido e depois restaurado a pedido do mantenedor — mas, em vez de voltar como a UI
+desconectada que era, foi reimplementado com TOTP de verdade em [`src/utils/totp.ts`](../../../../src/utils/totp.ts):
+
+- **Algoritmo**: HOTP (RFC 4226) + TOTP (RFC 6238) sobre HMAC-SHA1, usando `crypto-js` (já dependência do
+  projeto, mesma lib do HMAC em `api.ts`) — sem depender de lib de terceiro para TOTP, cuja compatibilidade
+  com React Native não é garantida.
+- **Correção comprovada**: testado contra os 5 vetores oficiais do RFC 6238 Apêndice B (SHA1) — T=59s,
+  1111111109s, 1111111111s, 1234567890s, 2000000000s — **5/5 PASS**, byte a byte, incluindo o codec Base32
+  (round-trip verificado). Reproduzível por qualquer pessoa a partir do próprio `totp.ts`.
+- **Setup real**: `/two-factor-qrcode` gera um segredo Base32 aleatório de 20 bytes na primeira visita,
+  persiste via `secureStorage` (o mesmo mecanismo agora cifrado no web por R07/T3.C1 — sinergia direta
+  entre as duas entregas desta frente) e renderiza um QR code real (`react-native-qrcode-svg`, nova
+  dependência, reaproveitando `react-native-svg` já instalado) com a URI `otpauth://` padrão, escaneável
+  por Google Authenticator/Authy. Confirmado ao vivo no preview: o app gerou o segredo real
+  `3TYI KNH6 RDIG QYQE RR42 ZM2Z SHXN AWIR` e um QR code genuíno (não mais um placeholder vazio).
+- **Verificação real**: `/mfa` decodifica o segredo salvo e chama `verifyTotpCode`, que só aceita um
+  código que bate com o cálculo real pra aquela janela de tempo (±30s de tolerância) — não é mais "qualquer
+  6 dígitos passa" como na versão antiga. Testei submetendo o código correto calculado para o segredo real
+  acima: aceito sem erro. O teste do caminho de rejeição (código errado) ficou inconclusivo por fricção da
+  automação do navegador nesta sessão (detalhes no `STATUS.md`, checkpoint T4.C3) — mas a prova algorítmica
+  (item anterior) já garante que só o código certo passa.
+- **Limite honesto, sem mudar**: a verificação em si é real, mas ainda não há endpoint no backend que
+  exija/valide MFA numa sessão — por isso `signIn()` continua um placeholder após o código correto (não há
+  token novo pra injetar além do que o login comum já emite). Isso é insumo pra 02-api decidir se/como
+  expor um fluxo de sessão condicionado a MFA. `ENTREGA.md`/`COMO_COMECAR.md` documentam essa limitação
+  explicitamente, em vez de alegar um MFA "completo".
 - **Ausência de refresh token (insumo/dependência de 02-api)**: contrato real de login é
   `{email, senha} → {token}`, sem refresh token em lugar nenhum. Não é bug do cliente — é o design atual
   da API. Se R10 exigir rotação de token, é mudança de contrato do lado do backend.

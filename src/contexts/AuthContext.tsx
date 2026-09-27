@@ -24,6 +24,7 @@ interface AuthContextType {
   userToken: string | null;
   username: string | null;
   isLoading: boolean;
+  signIn: (usuario: string, senha: string) => Promise<void>;
   signOut: () => Promise<void>;
   setUserToken: (token: string | null) => void;
 }
@@ -98,6 +99,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUserTokenState(token);
   };
 
+  /**
+   * signIn — placeholder mantido por compatibilidade.
+   * O fluxo real de login é feito por loginUser() no authService,
+   * que salva o token e chama setUserToken(). Chamado pelas telas
+   * de MFA após a verificação TOTP real ter passado: a verificação
+   * do código é real (src/utils/totp.ts), mas o backend atual não
+   * expõe uma sessão condicionada a MFA — não há token novo pra
+   * injetar aqui além do que o login já emitiu.
+   */
+  const signIn = async (_usuario: string, _senha: string) => {};
+
   /** Remove todos os dados de sessão e limpa o SecureStore. */
   const signOut = async () => {
     await deleteSecureItem(SECURE_KEY_TOKEN);
@@ -106,7 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ userToken, username, isLoading, signOut, setUserToken }}
+      value={{ userToken, username, isLoading, signIn, signOut, setUserToken }}
     >
       {children}
     </AuthContext.Provider>
